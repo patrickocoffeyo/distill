@@ -3,3 +3,6 @@ description = Provides an API that allows modules to easily extract and format d
 package = Entity
 version = 7.x-0.1
 core = 7.x
+files[] = includes/distill.class.inc
+files[] = includes/distill_processor.class.inc
+dependencies[] = entity
