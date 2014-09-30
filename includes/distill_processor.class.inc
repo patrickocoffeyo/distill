@@ -12,4 +12,16 @@
  */
 class EntityDistillProcessor {
 
+  /**
+   * @property array systemFieldTypes
+   *  Field types available on Drupal system.
+   *
+   * @see field_info_field_types()
+   */
+  public $systemFieldTypes;
+
+  public function __construct() {
+    // Fetch system field types.
+    $this->systemFieldTypes = field_info_field_types();
+  }
 }
