@@ -98,8 +98,6 @@ class EntityDistill {
 
   /**
    * Determine which field types can be processed.
-   *
-   * @see field_info_field_types()
    */
   protected function setProcessableFieldTypes() {
     foreach ($this->entityWrapper->getPropertyInfo() as $field) {
