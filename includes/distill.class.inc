@@ -103,7 +103,7 @@ class EntityDistill {
    */
   protected function setProcessableFieldTypes() {
     foreach ($this->entityWrapper->getPropertyInfo() as $field) {
-      if ($field['type']) {
+      if (isset($field['type'])) {
         $function_name = 'process' . $this->machineNameToFunctionName($field['type']) . 'Type';
         $acceptable = FALSE;
         if (method_exists($this->processor, $function_name)) {
@@ -112,7 +112,6 @@ class EntityDistill {
         $this->processableFieldTypes[$field['type']] = $acceptable;
       }
     }
-    die(var_dump($this->processableFieldTypes));
   }
 
   /**
@@ -147,5 +146,81 @@ class EntityDistill {
     $function_name = str_replace(' ', '', $function_name);
 
     return $function_name;
+  }
+
+  /**
+   * Adds a field value to the $this->fields array.
+   *
+   * @param string $name
+   *   Name of field that should be added to field values array.
+   */
+  public function setField($name) {
+    // If field doesn't exist on entityWrapper, don't add it.
+    if (!$this->entityWrapper->__isset($name)) {
+      return NULL;
+    }
+
+    // If the field is empty, don't add it.
+    $field_wrappers = $this->entityWrapper->{$name};
+    $field_wrappers_value = $field_wrappers->value();
+    if (empty($field_wrappers_value)) {
+      return NULL;
+    }
+
+    // Load field type.
+    $field_info = field_info_field($name);
+    $type = $field_info['type'];
+
+    // If there is no function delegated to process this field
+    // or this type of field, throw an error.
+    if ((!isset($this->processableFieldTypes[$type]) || $this->processableFieldTypes[$type] == FALSE) &&
+       (!isset($this->processableFields[$name]) || $this->processableFields[$name] == FALSE)) {
+      throw new Exception('EWEntityMetadataWrapperFieldValueExtractor unable to process field "' . $name . '" of type "' . $type . '"');
+    }
+
+    // Start an array of field values.
+    $field_values = array();
+
+    // Calls proper field processing function.
+    $process_field = function($type, $wrapper, $index) use ($name) {
+      if ($this->processableFields[$name]) {
+        $function_name = 'process' . $this->machineNameToFunctionName($field_name) . 'Field';
+      }
+      else {
+        $function_name = 'process' . $this->machineNameToFunctionName($type) . 'Type';
+      }
+
+      return $this->processor->{$function_name}($wrapper, $index);
+    };
+
+    // If multivalue field, loop through and extract values.
+    if (method_exists($field_wrappers, 'count') && $field_wrappers->count() > 0) {
+      foreach ($field_wrappers->getIterator() as $index => $wrapper) {
+        $field_values[] = $process_field($type, $wrapper, $index);
+      }
+    }
+    // If single value field, extract single value.
+    else {
+      $field_values = $process_field($type, $wrapper, 0);
+    }
+
+    // Add field value to $this->fieldValues array.
+    $this->fields[$name] = $field_values;
+  }
+
+  /**
+   * Adds all value of all fields on entity to the $this->fields array.
+   */
+  public function setAllFields() {
+    foreach ($this->entityWrapper->getPropertyInfo() as $field_name => $field) {
+      $this->setField($field_name);
+    }
+  }
+
+  /**
+   * Fetches and returns processed field values.
+   */
+  public function getFieldValues() {
+    return $this->fields;
   }
 }
