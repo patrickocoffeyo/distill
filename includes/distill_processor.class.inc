@@ -6,11 +6,10 @@
  */
 
 /**
- * Provides a class that defines how field values
- * should be extracted, by type and by field.
- * Other processing classes can be defined by
+ * Provides a class that defines how field values should be extracted,
+ * by type and by field. Other processing classes can be defined by
  * extending this class and overriding methods.
  */
-abstract class EntityDistillProcessor {
+class EntityDistillProcessor {
 
 }
