@@ -30,18 +30,57 @@ class EntityDistillProcessor {
   }
 
   /**
-   * Text field processors.
+   * Processor for fields of type 'text'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
    */
   public function processTextType($wrapper, $index) {
     return $wrapper->value();
   }
 
+  /**
+   * Processor for fields of type 'text_long'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   */
   public function processTextLongType($wrapper, $index) {
-
+    return $this->processTextType($wrapper, $index);
   }
 
-  public function processTextLongWithSummaryType($wrapper, $index) {
+  /**
+   * Processor for fields of type 'text_formatted'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   */
+  public function processTextFormattedType($wrapper, $index) {
+    $field_data = $wrapper->value();
 
+    $field_values = array(
+      'value' => check_markup($field_data['value'], $field_data['format']),
+    );
+
+    if (isset($field_data['summary']) && !empty($field_data['summary'])) {
+      $field_values['summary'] = check_markup($field_data['summary']. $field_data['format']);
+    }
+
+    return $field_values;
+  }
+
+  /**
+   * Processor for fields of type 'text_long_with_summary'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   */
+  public function processTextLongWithSummaryType($wrapper, $index) {
+    return $this->processTextFormattedType($wrapper, $index);
   }
 
   /**
