@@ -131,7 +131,7 @@ class EntityDistill {
     // Remove >.
     $function_name = str_replace('>', '', $machine_name);
     // Replace < with _
-    $function_name = str_replace('>', '', $function_name);
+    $function_name = str_replace('<', '', $function_name);
     // Replace _ with  ' ' so that words can be capitalized.
     $function_name = str_replace('_', ' ', $function_name);
     // Capitalize words.

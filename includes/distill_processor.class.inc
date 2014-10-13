@@ -86,12 +86,12 @@ class EntityDistillProcessor {
   /**
    * File field processors.
    */
-  public function processFileType($wrapper, $index) {
-
+  public function processFieldItemFileType($wrapper, $index) {
+    return $wrapper->value();
   }
 
-  public function processImageType($wrapper, $index) {
-
+  public function processFieldItemImageType($wrapper, $index) {
+    return $wrapper->value();
   }
 
   /**
@@ -125,27 +125,19 @@ class EntityDistillProcessor {
    * Number and Bool field processors.
    */
   public function processIntegerType($wrapper, $index) {
-
+    return $wrapper->value();
   }
 
-  public function processNumberIntegerType($wrapper, $index) {
-
-  }
-
-  public function processNumberDecimalType($wrapper, $index) {
-
-  }
-
-  public function processNumberFloatType($wrapper, $index) {
-
+  public function processDecimalType($wrapper, $index) {
+    return $wrapper->value();
   }
 
   public function processBooleanType($wrapper, $index) {
-
+    return $wrapper->value();
   }
 
   public function processTokenType($wrapper, $index) {
-
+    return $wrapper->value();
   }
 
   /**
