@@ -167,14 +167,14 @@ class EntityDistillProcessor {
    * Date field processors.
    */
   public function processDateType($wrapper, $index) {
-
+    return $wrapper->value();
   }
 
   /**
    * URI/URL field processors.
    */
   public function processUriType($wrapper, $index) {
-
+    return $wrapper->value();
   }
 
 }
