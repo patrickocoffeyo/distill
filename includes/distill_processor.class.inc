@@ -97,28 +97,32 @@ class EntityDistillProcessor {
   /**
    * List field processors.
    */
-  public function processListIngeterType($wrapper, $index) {
-
+  public function processListIntegerType($wrapper, $index) {
+    return $this->processIntegerType($wrapper, $index);
   }
 
   public function processListFloatType($wrapper, $index) {
+    return $this->processFloatType($wrapper, $index);
+  }
 
+  public function processListDecimalType($wrapper, $index) {
+    return $this->processDecimalType($wrapper, $index);
   }
 
   public function processListTextType($wrapper, $index) {
-
+    return $this->processTextType($wrapper, $index);
   }
 
   public function processListBooleanType($wrapper, $index) {
-
+    return $this->processBooleanType($wrapper, $index);
   }
 
   public function processListTaxonomyTermType($wrapper, $index) {
-
+    return $this->processTaxonomyTermReferenceType($wrapper, $index);
   }
 
   public function processListCommentType($wrapper, $index) {
-
+    return $wrapper->value();
   }
 
   /**
