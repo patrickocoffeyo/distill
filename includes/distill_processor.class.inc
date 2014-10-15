@@ -148,7 +148,8 @@ class EntityDistillProcessor {
    * Entity Reference field processors.
    */
   public function processTaxonomyTermReferenceType($wrapper, $index) {
-
+    $term = $wrapper->value();
+    return $term->tid;
   }
 
   public function processEntityReferenceType($wrapper, $index) {
