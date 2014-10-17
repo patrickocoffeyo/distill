@@ -147,8 +147,10 @@ class EntityDistill {
    *
    * @param string $name
    *   Name of field that should be added to field values array.
+   * @param string $property_name
+   *   Name of property that will hold the field's value.
    */
-  public function setField($name) {
+  public function setField($name, $property_name = NULL) {
     // If field doesn't exist on entityWrapper, don't add it.
     if (!$this->entityWrapper->__isset($name)) {
       return NULL;
@@ -159,6 +161,11 @@ class EntityDistill {
     $field_wrappers_value = $field_wrappers->value();
     if (empty($field_wrappers_value)) {
       return NULL;
+    }
+
+    // Default $property_name to $name
+    if (!$property_name) {
+      $property_name = $name;
     }
 
     // Load field info.
@@ -214,7 +221,7 @@ class EntityDistill {
     }
 
     // Add field value to $this->fieldValues array.
-    $this->fields[$name] = $field_values;
+    $this->fields[$property_name] = $field_values;
   }
 
   /**
