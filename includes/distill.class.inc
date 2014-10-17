@@ -98,19 +98,20 @@ class EntityDistill {
    * Determine which field types can be processed.
    */
   protected function setProcessableFieldsAndTypes() {
-    // Manually set 'text', as it is the default for properties with no type.
-    $this->processableFieldTypes['text'] = method_exists($this->processor, 'processTextType');
-
     // Loop through fields and check for processability.
     foreach ($this->entityWrapper->getPropertyInfo() as $field_name => $field) {
-      // If no field type is defined, default to 'text'.
-      if (!isset($field['type'])) {
-        $field['type'] = 'text';
+      // Load field type.
+      $field_info = field_info_field($field_name);
+      if (!$field_info) {
+        $field_info = $field;
       }
 
+      // Get the field type.
+      $type = $field_info['type'];
+
       // Check to see if processor can process field of this type.
-      $function_base_name = 'process' . $this->machineNameToFunctionName($field['type']);
-      $this->processableFieldTypes[$field['type']] = method_exists($this->processor, $function_base_name . 'Type');
+      $function_base_name = 'process' . $this->machineNameToFunctionName($type);
+      $this->processableFieldTypes[$type] = method_exists($this->processor, $function_base_name . 'Type');
 
       // Check to see if processor has a function to process this field.
       $function_name = 'process' . $this->machineNameToFunctionName($field_name) . 'Field';
@@ -149,8 +150,10 @@ class EntityDistill {
    *   Name of field that should be added to field values array.
    * @param string $property_name
    *   Name of property that will hold the field's value.
+   * @param string $settings
+   *   Variable for passing settings and context into processors.
    */
-  public function setField($name, $property_name = NULL) {
+  public function setField($name, $property_name = NULL, $settings = array()) {
     // If field doesn't exist on entityWrapper, don't add it.
     if (!$this->entityWrapper->__isset($name)) {
       return NULL;
@@ -168,24 +171,14 @@ class EntityDistill {
       $property_name = $name;
     }
 
-    // Load field info.
-    if (method_exists($field_wrappers, 'info')) {
+    // Load field type.
+    $field_info = field_info_field($name);
+    if (!$field_info) {
       $field_info = $field_wrappers->info();
     }
-    elseif (method_exists($field_wrappers, 'getPropertyInfo')) {
-      $field_info = $field_wrappers->getPropertyInfo();
-    }
-    else {
-      $field_info = field_info_field($name);
-    }
 
-    // Extract field type.
+    // Get the field type.
     $type = $field_info['type'];
-
-    // If no field type is defined, default to 'text'.
-    if (!isset($type)) {
-      $type = 'text';
-    }
 
     // If there is no function delegated to process this field
     // or this type of field, throw an error.
@@ -206,7 +199,7 @@ class EntityDistill {
         $function_name = 'process' . $this->machineNameToFunctionName($type) . 'Type';
       }
 
-      return $this->processor->{$function_name}($wrapper, $index);
+      return $this->processor->{$function_name}($wrapper, $index, $settings);
     };
 
     // If multivalue field, loop through and extract values.

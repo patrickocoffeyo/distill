@@ -35,8 +35,10 @@ class EntityDistillProcessor {
    *   Wrapper of field from which values are being extracted.
    * @param integer $index
    *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
    */
-  public function processTextType($wrapper, $index) {
+  public function processTextType($wrapper, $index, $settings) {
     return $wrapper->value();
   }
 
@@ -46,9 +48,11 @@ class EntityDistillProcessor {
    *   Wrapper of field from which values are being extracted.
    * @param integer $index
    *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
    */
-  public function processTextLongType($wrapper, $index) {
-    return $this->processTextType($wrapper, $index);
+  public function processTextLongType($wrapper, $index, $settings) {
+    return $wrapper->value();
   }
 
   /**
@@ -57,8 +61,10 @@ class EntityDistillProcessor {
    *   Wrapper of field from which values are being extracted.
    * @param integer $index
    *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
    */
-  public function processTextFormattedType($wrapper, $index) {
+  public function processTextWithSummaryType($wrapper, $index, $settings) {
     $field_data = $wrapper->value();
 
     $field_values = array(
@@ -73,109 +79,226 @@ class EntityDistillProcessor {
   }
 
   /**
-   * Processor for fields of type 'text_long_with_summary'.
+   * Processor for fields of type 'file'.
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
    * @param integer $index
    *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
    */
-  public function processTextLongWithSummaryType($wrapper, $index) {
-    return $this->processTextFormattedType($wrapper, $index);
-  }
-
-  /**
-   * File field processors.
-   */
-  public function processFieldItemFileType($wrapper, $index) {
-    return $wrapper->value();
-  }
-
-  public function processFieldItemImageType($wrapper, $index) {
+  public function processFileType($wrapper, $index, $settings) {
     return $wrapper->value();
   }
 
   /**
-   * List field processors.
+   * Processor for fields of type 'image'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
    */
-  public function processListIntegerType($wrapper, $index) {
-    return $this->processIntegerType($wrapper, $index);
-  }
-
-  public function processListFloatType($wrapper, $index) {
-    return $this->processFloatType($wrapper, $index);
-  }
-
-  public function processListDecimalType($wrapper, $index) {
-    return $this->processDecimalType($wrapper, $index);
-  }
-
-  public function processListTextType($wrapper, $index) {
-    return $this->processTextType($wrapper, $index);
-  }
-
-  public function processListBooleanType($wrapper, $index) {
-    return $this->processBooleanType($wrapper, $index);
-  }
-
-  public function processListTaxonomyTermType($wrapper, $index) {
-    return $this->processTaxonomyTermReferenceType($wrapper, $index);
-  }
-
-  public function processListCommentType($wrapper, $index) {
+  public function processImageType($wrapper, $index, $settings) {
     return $wrapper->value();
   }
 
   /**
-   * Number and Bool field processors.
+   * Processor for fields of type 'list_integer'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
    */
-  public function processIntegerType($wrapper, $index) {
-    return $wrapper->value();
+  public function processListIntegerType($wrapper, $index, $settings) {
+    return $this->processNumberIntegerType($wrapper, $index, $settings);
   }
 
-  public function processDecimalType($wrapper, $index) {
-    return $wrapper->value();
+  /**
+   * Processor for fields of type 'list_float'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
+   */
+  public function processListFloatType($wrapper, $index, $settings) {
+    return $this->processNumberFloatType($wrapper, $index, $settings);
   }
 
-  public function processBooleanType($wrapper, $index) {
-    return $wrapper->value();
+  /**
+   * Processor for fields of type 'list_text'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
+   */
+  public function processListTextType($wrapper, $index, $settings) {
+    return $this->processTextType($wrapper, $index, $settings);
   }
 
-  public function processTokenType($wrapper, $index) {
+  /**
+   * Processor for fields of type 'list_boolean'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
+   */
+  public function processListBooleanType($wrapper, $index, $settings) {
+    return $this->processBooleanType($wrapper, $index, $settings);
+  }
+
+  /**
+   * Processor for fields of type 'number_integer'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
+   */
+  public function processNumberIntegerType($wrapper, $index, $settings) {
     return $wrapper->value();
   }
 
   /**
-   * Entity Reference field processors.
+   * Processor for properties of type 'integer'.
+   * Reference to $this->processNumberIntegerType()
+   *
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
    */
-  public function processTaxonomyTermReferenceType($wrapper, $index) {
+  public function processIntegerType($wrapper, $index, $settings) {
+    return $this->processNumberIntegerType($wrapper, $index, $settings);
+  }
+
+  /**
+   * Processor for fields of type 'number_float'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
+   */
+  public function processNumberFloatType($wrapper, $index, $settings) {
+    return $wrapper->value();
+  }
+
+  /**
+   * Processor for fields of type 'number_decimal'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
+   */
+  public function processNumberDecimalType($wrapper, $index, $settings) {
+    return $wrapper->value();
+  }
+
+  /**
+   * Processor for properties of type 'boolean'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
+   */
+  public function processBooleanType($wrapper, $index, $settings) {
+    return $wrapper->value();
+  }
+
+  /**
+   * Processor for properties of type 'token'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
+   */
+  public function processTokenType($wrapper, $index, $settings) {
+    return $wrapper->value();
+  }
+
+  /**
+   * Processor for fields of type 'entityreference'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
+   */
+  public function processEntityReferenceType($wrapper, $index, $settings) {
+
+  }
+
+  /**
+   * Processor for fields of type 'taxonomy_term_reference'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
+   */
+  public function processTaxonomyTermReferenceType($wrapper, $index, $settings) {
     $term = $wrapper->value();
     return $term->tid;
   }
 
-  public function processEntityReferenceType($wrapper, $index) {
-
-  }
-
-  public function processNodeType($wrapper, $index) {
-
-  }
-
-  public function processUserType($wrapper, $index) {
-
+  /**
+   * Processor for properties of type 'user'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
+   */
+  public function processUserType($wrapper, $index, $settings) {
+    return $this->processEntityReferenceType($wrapper, $index, $settings);
   }
 
   /**
-   * Date field processors.
+   * Processor for properties of type 'date'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
    */
-  public function processDateType($wrapper, $index) {
+  public function processDateType($wrapper, $index, $settings) {
     return $wrapper->value();
   }
 
   /**
-   * URI/URL field processors.
+   * Processor for properties of type 'uri'.
+   * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+   *   Wrapper of field from which values are being extracted.
+   * @param integer $index
+   *   Integer representing the delta of the field being processed.
+   * @param array $settings
+   *   Variable for passing settings and context into processors.
    */
-  public function processUriType($wrapper, $index) {
+  public function processUriType($wrapper, $index, $settings) {
     return $wrapper->value();
   }
-
 }
