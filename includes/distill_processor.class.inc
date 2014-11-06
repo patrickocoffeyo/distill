@@ -31,9 +31,10 @@ class EntityDistillProcessor {
 
   /**
    * Processor for fields of type 'text'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
@@ -44,9 +45,10 @@ class EntityDistillProcessor {
 
   /**
    * Processor for fields of type 'text_long'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
@@ -57,9 +59,10 @@ class EntityDistillProcessor {
 
   /**
    * Processor for fields of type 'text_formatted'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
@@ -72,7 +75,7 @@ class EntityDistillProcessor {
     );
 
     if (isset($field_data['summary']) && !empty($field_data['summary'])) {
-      $field_values['summary'] = check_markup($field_data['summary']. $field_data['format']);
+      $field_values['summary'] = check_markup($field_data['summary'] . $field_data['format']);
     }
 
     return $field_values;
@@ -80,9 +83,10 @@ class EntityDistillProcessor {
 
   /**
    * Processor for fields of type 'file'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
@@ -93,9 +97,10 @@ class EntityDistillProcessor {
 
   /**
    * Processor for fields of type 'image'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
@@ -105,23 +110,25 @@ class EntityDistillProcessor {
   }
 
   /**
-   * Processor for fields of type 'list_integer'.
+   * Processor for fields of type 'list_int'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processListIntegerType($wrapper, $index, $settings) {
-    return $this->processNumberIntegerType($wrapper, $index, $settings);
+  public function processListintType($wrapper, $index, $settings) {
+    return $this->processNumberintType($wrapper, $index, $settings);
   }
 
   /**
    * Processor for fields of type 'list_float'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
@@ -132,9 +139,10 @@ class EntityDistillProcessor {
 
   /**
    * Processor for fields of type 'list_text'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
@@ -145,9 +153,10 @@ class EntityDistillProcessor {
 
   /**
    * Processor for fields of type 'list_boolean'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
@@ -157,38 +166,41 @@ class EntityDistillProcessor {
   }
 
   /**
-   * Processor for fields of type 'number_integer'.
+   * Processor for fields of type 'number_int'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processNumberIntegerType($wrapper, $index, $settings) {
+  public function processNumberintType($wrapper, $index, $settings) {
     return $wrapper->value();
   }
 
   /**
-   * Processor for properties of type 'integer'.
-   * Reference to $this->processNumberIntegerType()
+   * Processor for properties of type 'int'.
+   *
+   * Reference to $this->processNumberintType()
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processIntegerType($wrapper, $index, $settings) {
-    return $this->processNumberIntegerType($wrapper, $index, $settings);
+  public function processintType($wrapper, $index, $settings) {
+    return $this->processNumberintType($wrapper, $index, $settings);
   }
 
   /**
    * Processor for fields of type 'number_float'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
@@ -199,9 +211,10 @@ class EntityDistillProcessor {
 
   /**
    * Processor for fields of type 'number_decimal'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
@@ -212,9 +225,10 @@ class EntityDistillProcessor {
 
   /**
    * Processor for properties of type 'boolean'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
@@ -225,9 +239,10 @@ class EntityDistillProcessor {
 
   /**
    * Processor for properties of type 'token'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
@@ -238,9 +253,10 @@ class EntityDistillProcessor {
 
   /**
    * Processor for fields of type 'entityreference'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
@@ -251,9 +267,10 @@ class EntityDistillProcessor {
 
   /**
    * Processor for fields of type 'taxonomy_term_reference'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
@@ -265,9 +282,10 @@ class EntityDistillProcessor {
 
   /**
    * Processor for properties of type 'user'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
@@ -278,9 +296,10 @@ class EntityDistillProcessor {
 
   /**
    * Processor for properties of type 'date'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
@@ -291,9 +310,10 @@ class EntityDistillProcessor {
 
   /**
    * Processor for properties of type 'uri'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
-   * @param integer $index
+   * @param int $index
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.

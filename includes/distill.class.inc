@@ -20,7 +20,7 @@ class EntityDistill {
 
   /**
    * @property EntityDistillProcessor $processor
-   *   EntityDistillProcessor object that will be used to process raw field data.
+   *   EntityDistillProcessor object that is used to process field data.
    *   Defaults to new instance of EntityDistillProcessor.
    */
   public $processor;
@@ -63,7 +63,7 @@ class EntityDistill {
    * @param stdClass|EntityDrupalWrapper $entity
    *   Entity that a wrapper is being loaded for, or an entity wrapper.
    * @param EntityDistillProcessor $processor
-   *   EntityDistillProcessor object that will be used to process raw field data.
+   *   EntityDistillProcessor object that is used to process field data.
    * @param string $language
    *   Language code of language that should be used when
    *   extracting field data. Defaults to LANGUAGE_NONE.
@@ -85,7 +85,7 @@ class EntityDistill {
       $this->processor = new EntityDistillProcessor();
     }
 
-    // Define which fields and field types can/cannot be processed by this class.
+    // Define which fields and field types can/cannot be processed.
     $this->setProcessableFieldsAndTypes();
 
     // If language is passed in, set class language.
@@ -166,7 +166,7 @@ class EntityDistill {
       return NULL;
     }
 
-    // Default $property_name to $name
+    // Default $property_name to $name.
     if (!$property_name) {
       $property_name = $name;
     }
@@ -191,7 +191,7 @@ class EntityDistill {
     $field_values = array();
 
     // Calls proper field processing function.
-    $process_field = function($type, $wrapper, $index) use ($name) {
+    $process_field = function($type, $wrapper, $index, $settings, $callback) use ($name) {
       if ($this->processableFields[$name]) {
         $function_name = 'process' . $this->machineNameToFunctionName($field_name) . 'Field';
       }
@@ -210,7 +210,7 @@ class EntityDistill {
     }
     // If single value field, extract single value.
     else {
-      $field_values = $process_field($type, $field_wrappers, 0);
+      $field_values = $process_field($type, $field_wrappers, 0, $settings);
     }
 
     // Add field value to $this->fieldValues array.
