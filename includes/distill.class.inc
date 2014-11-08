@@ -105,9 +105,14 @@ class EntityDistill {
       if (!$field_info) {
         $field_info = $field;
       }
-
       // Get the field type.
-      $type = $field_info['type'];
+      // If the type doesn't exist, default to 'text'.
+      if (isset($field_info['type'])) {
+        $type = $field_info['type'];
+      }
+      else {
+        $type = 'text';
+      }
 
       // Check to see if processor can process field of this type.
       $function_base_name = 'process' . $this->machineNameToFunctionName($type);
@@ -191,7 +196,7 @@ class EntityDistill {
     $field_values = array();
 
     // Calls proper field processing function.
-    $process_field = function($type, $wrapper, $index, $settings, $callback) use ($name) {
+    $process_field = function($type, $wrapper, $index) use ($settings, $name) {
       if ($this->processableFields[$name]) {
         $function_name = 'process' . $this->machineNameToFunctionName($field_name) . 'Field';
       }
@@ -210,7 +215,7 @@ class EntityDistill {
     }
     // If single value field, extract single value.
     else {
-      $field_values = $process_field($type, $field_wrappers, 0, $settings);
+      $field_values = $process_field($type, $field_wrappers, 0);
     }
 
     // Add field value to $this->fieldValues array.

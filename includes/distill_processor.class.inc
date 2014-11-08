@@ -110,7 +110,7 @@ class EntityDistillProcessor {
   }
 
   /**
-   * Processor for fields of type 'list_int'.
+   * Processor for fields of type 'list_integer'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
@@ -119,8 +119,8 @@ class EntityDistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processListintType($wrapper, $index, $settings) {
-    return $this->processNumberintType($wrapper, $index, $settings);
+  public function processListintegerType($wrapper, $index, $settings) {
+    return $this->processNumberintegerType($wrapper, $index, $settings);
   }
 
   /**
@@ -175,14 +175,14 @@ class EntityDistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processNumberintType($wrapper, $index, $settings) {
+  public function processNumberintegerType($wrapper, $index, $settings) {
     return $wrapper->value();
   }
 
   /**
    * Processor for properties of type 'int'.
    *
-   * Reference to $this->processNumberintType()
+   * Reference to $this->processNumberintegerType()
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field from which values are being extracted.
@@ -191,8 +191,8 @@ class EntityDistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processintType($wrapper, $index, $settings) {
-    return $this->processNumberintType($wrapper, $index, $settings);
+  public function processIntegerType($wrapper, $index, $settings) {
+    return $this->processNumberintegerType($wrapper, $index, $settings);
   }
 
   /**
@@ -260,9 +260,46 @@ class EntityDistillProcessor {
    *   Integer representing the delta of the field being processed.
    * @param array $settings
    *   Variable for passing settings and context into processors.
+   *   Allowed Values:
+   *     - processor: Instance of processor class that should be
+   *       used to process the referenced entity.
+   *     - include_fields: Array of fields => settings that should
+   *       be extracted and returned fron referenced entity.
+   *
+   * @return StdClass|Array
+   *   Field values as specified by include_fields and as extracted 
+   *   by specified processor class.
    */
   public function processEntityReferenceType($wrapper, $index, $settings) {
+    // Get entity info, and entity object from wrapper.
+    $entity_info = $wrapper->info();
+    $entity = $wrapper->value();
+    $field_values = array();
 
+    // If a processor class isn't passed in, use default.
+    if (isset($settings['processor'])) {
+      $settings['processor'] = new DistillTestEntityProcessor();
+    }
+
+    // Create an entity distiller.
+    $distiller = new EntityDistill($entity_info['type'], $entity, $settings['processor']);
+
+    if (isset($settings['include_fields']) && !empty($settings['include_fields'])) {
+      foreach ($settings['include_fields'] as $field_name => $field_settings) {
+        // If no field settings were specified, use
+        // field value instead of index as name.
+        if (is_int($field_name)) {
+          $field_name = $field_settings;
+          $field_settings = array();
+        }
+        $distiller->setField($field_name, $field_settings);
+      }
+    }
+    else {
+      $distiller->setAllFields();
+    }
+
+    return $distiller->getFieldValues();
   }
 
   /**
