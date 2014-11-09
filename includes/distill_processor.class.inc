@@ -106,7 +106,19 @@ class EntityDistillProcessor {
    *   Variable for passing settings and context into processors.
    */
   public function processImageType($wrapper, $index, $settings) {
-    return $wrapper->value();
+    $image = $wrapper->value();
+    $url = NULL;
+
+    // If an image style is specified, get path for style.
+    if (isset($settings['image_style'])) {
+      $url = image_style_url($settings['image_style'], $image['uri']);
+    }
+    // If no image stype is specified, return path to full image.
+    else {
+      $url = file_create_url($image['uri']);
+    }
+
+    return $url;
   }
 
   /**
@@ -277,7 +289,7 @@ class EntityDistillProcessor {
     $field_values = array();
 
     // If a processor class isn't passed in, use default.
-    if (isset($settings['processor'])) {
+    if (!isset($settings['processor'])) {
       $settings['processor'] = new DistillTestEntityProcessor();
     }
 

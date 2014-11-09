@@ -149,7 +149,7 @@ class EntityDistill {
   }
 
   /**
-   * Adds a field value to the $this->fields array.
+   * Adds a field value to the $this->values array.
    *
    * @param string $name
    *   Name of field that should be added to field values array.
@@ -219,11 +219,11 @@ class EntityDistill {
     }
 
     // Add field value to $this->fieldValues array.
-    $this->fields[$property_name] = $field_values;
+    $this->values[$property_name] = $field_values;
   }
 
   /**
-   * Adds all value of all fields on entity to the $this->fields array.
+   * Adds all value of all fields on entity to the $this->values array.
    */
   public function setAllFields() {
     foreach ($this->entityWrapper->getPropertyInfo() as $field_name => $field) {
@@ -235,6 +235,6 @@ class EntityDistill {
    * Fetches and returns processed field values.
    */
   public function getFieldValues() {
-    return $this->fields;
+    return $this->values;
   }
 }
