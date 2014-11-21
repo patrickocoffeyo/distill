@@ -198,7 +198,7 @@ class Distill {
     // Calls proper field processing function.
     $process_field = function($type, $wrapper, $index) use ($settings, $name) {
       if ($this->processableFields[$name]) {
-        $function_name = 'process' . $this->machineNameToFunctionName($field_name) . 'Field';
+        $function_name = 'process' . $this->machineNameToFunctionName($name) . 'Field';
       }
       else {
         $function_name = 'process' . $this->machineNameToFunctionName($type) . 'Type';
