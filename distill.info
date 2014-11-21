@@ -1,7 +1,6 @@
 name = Distill
 description = Provides an API that allows modules to easily extract and format data from Entity objects.
 package = Entity
-version = 7.x-0.1
 core = 7.x
 files[] = includes/distill.class.inc
 files[] = includes/distill_processor.class.inc
