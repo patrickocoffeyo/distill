@@ -286,7 +286,6 @@ class DistillProcessor {
     // Get entity info, and entity object from wrapper.
     $entity_info = $wrapper->info();
     $entity = $wrapper->value();
-    $field_values = array();
 
     // If a processor class isn't passed in, use default.
     if (!isset($settings['processor'])) {
