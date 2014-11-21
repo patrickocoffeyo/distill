@@ -29,7 +29,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processTextType($wrapper, $index, $settings) {
+  public function processTextType($wrapper, $index, array $settings) {
     return $wrapper->value();
   }
 
@@ -43,7 +43,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processTextLongType($wrapper, $index, $settings) {
+  public function processTextLongType($wrapper, $index, array $settings) {
     return $wrapper->value();
   }
 
@@ -57,7 +57,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processTextWithSummaryType($wrapper, $index, $settings) {
+  public function processTextWithSummaryType($wrapper, $index, array $settings) {
     $field_data = $wrapper->value();
 
     $field_values = array(
@@ -81,7 +81,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processFileType($wrapper, $index, $settings) {
+  public function processFileType($wrapper, $index, array $settings) {
     return $wrapper->value();
   }
 
@@ -95,7 +95,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processImageType($wrapper, $index, $settings) {
+  public function processImageType($wrapper, $index, array $settings) {
     $image = $wrapper->value();
     $url = NULL;
 
@@ -121,7 +121,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processListintegerType($wrapper, $index, $settings) {
+  public function processListintegerType($wrapper, $index, array $settings) {
     return $this->processNumberintegerType($wrapper, $index, $settings);
   }
 
@@ -135,7 +135,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processListFloatType($wrapper, $index, $settings) {
+  public function processListFloatType($wrapper, $index, array $settings) {
     return $this->processNumberFloatType($wrapper, $index, $settings);
   }
 
@@ -149,7 +149,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processListTextType($wrapper, $index, $settings) {
+  public function processListTextType($wrapper, $index, array $settings) {
     return $this->processTextType($wrapper, $index, $settings);
   }
 
@@ -163,7 +163,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processListBooleanType($wrapper, $index, $settings) {
+  public function processListBooleanType($wrapper, $index, array $settings) {
     return $this->processBooleanType($wrapper, $index, $settings);
   }
 
@@ -177,7 +177,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processNumberintegerType($wrapper, $index, $settings) {
+  public function processNumberintegerType($wrapper, $index, array $settings) {
     return $wrapper->value();
   }
 
@@ -193,7 +193,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processIntegerType($wrapper, $index, $settings) {
+  public function processIntegerType($wrapper, $index, array $settings) {
     return $this->processNumberintegerType($wrapper, $index, $settings);
   }
 
@@ -207,7 +207,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processNumberFloatType($wrapper, $index, $settings) {
+  public function processNumberFloatType($wrapper, $index, array $settings) {
     return $wrapper->value();
   }
 
@@ -221,7 +221,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processNumberDecimalType($wrapper, $index, $settings) {
+  public function processNumberDecimalType($wrapper, $index, array $settings) {
     return $wrapper->value();
   }
 
@@ -235,7 +235,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processBooleanType($wrapper, $index, $settings) {
+  public function processBooleanType($wrapper, $index, array $settings) {
     return $wrapper->value();
   }
 
@@ -249,7 +249,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processTokenType($wrapper, $index, $settings) {
+  public function processTokenType($wrapper, $index, array $settings) {
     return $wrapper->value();
   }
 
@@ -268,11 +268,11 @@ class DistillProcessor {
    *     - include_fields: Array of fields => settings that should
    *       be extracted and returned fron referenced entity.
    *
-   * @return StdClass|Array
-   *   Field values as specified by include_fields and as extracted 
+   * @return StdClass|array
+   *   Field values as specified by include_fields and as extracted
    *   by specified processor class.
    */
-  public function processEntityReferenceType($wrapper, $index, $settings) {
+  public function processEntityReferenceType($wrapper, $index, array $settings) {
     // Get entity info, and entity object from wrapper.
     $entity_info = $wrapper->info();
     $entity = $wrapper->value();
@@ -313,7 +313,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processTaxonomyTermReferenceType($wrapper, $index, $settings) {
+  public function processTaxonomyTermReferenceType($wrapper, $index, array $settings) {
     $term = $wrapper->value();
     return $term->tid;
   }
@@ -328,7 +328,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processUserType($wrapper, $index, $settings) {
+  public function processUserType($wrapper, $index, array $settings) {
     return $this->processEntityReferenceType($wrapper, $index, $settings);
   }
 
@@ -342,7 +342,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processDateType($wrapper, $index, $settings) {
+  public function processDateType($wrapper, $index, array $settings) {
     return $wrapper->value();
   }
 
@@ -356,7 +356,7 @@ class DistillProcessor {
    * @param array $settings
    *   Variable for passing settings and context into processors.
    */
-  public function processUriType($wrapper, $index, $settings) {
+  public function processUriType($wrapper, $index, array $settings) {
     return $wrapper->value();
   }
 }

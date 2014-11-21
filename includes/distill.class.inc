@@ -1,13 +1,11 @@
 <?php
 /**
  * @file
- * Provides a class that allows values to be easily
- * extracted from an entity object.
+ * Contains Distill class.
  */
 
 /**
- * A class that uses the EntityMetadataWrapper
- * to extract values from an entity object.
+ * Class that uses EntityMetadataWrapper to extract values from an entity.
  */
 class Distill {
 
@@ -23,7 +21,7 @@ class Distill {
    *
    * @param string $entity_type
    *   Type of entity that a wrapper is being loaded for.
-   * @param stdClass|EntityDrupalWrapper $entity
+   * @param object|EntityDrupalWrapper $entity
    *   Entity that a wrapper is being loaded for, or an entity wrapper.
    * @param DistillProcessor $processor
    *   DistillProcessor object that is used to process field data.
@@ -31,7 +29,7 @@ class Distill {
    *   Language code of language that should be used when
    *   extracting field data. Defaults to LANGUAGE_NONE.
    */
-  public function __construct($entity_type, $entity, $processor = NULL, $language = NULL) {
+  public function __construct($entity_type, $entity, DistillProcessor $processor = NULL, $language = NULL) {
     // Load entity metadata wrapper.
     if (is_a($entity, 'EntityDrupalWrapper')) {
       $this->entityWrapper = $entity;
