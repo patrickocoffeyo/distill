@@ -1,7 +1,7 @@
 #Distill
-Distill is a Drupal module that enables modules to extract and format data contained in Drupal entities. It provides a simple class structure for defining formatting schemas.
+Distill is a Drupal module that enables other modules to extract and format data from Drupal entities. It provides a simple class structure for defining formatting schemas.
 
-##What Is Distill?
+##How does Distill Work?
 Distill contains 2 classes; a processor class that contains sensible defaults for extracting field values by field type, and field name, and a distillation class that takes an entity, and a list of fields that should be returns, executes the processor formatter methods, and returns an array of data.
 
 ###EntityDistill
@@ -20,10 +20,10 @@ function distill_test_page() {
 
   // Create instance of processor.
   $processor = new EntityDistillProcessor();
-  
+
   // Create instance of EntityDistill.
   $distiller = new EntityDistill('node', $entity, $processor);
-  
+
   // Specify which fields should be returned.
   $distiller->setField('title');
   $distiller->setField('body', 'post');
@@ -38,15 +38,15 @@ function distill_test_page() {
     'include_fields' => array(
       'name',
       'mail'
-    )   
-  )); 
+    )
+  ));
   $distiller->setField('field_entity_reference', 'referenced_entity', array(
     'include_fields' => array(
       'title',
       'body'
-    )                                                                                                                                                                              
+    )
   ));
-  
+
   // Output JSON
   return drupal_json_output($distiller->getFieldValues());
 }
@@ -57,9 +57,9 @@ And here's an example of an entity that's been processed and formatted as JSON:
 
 ```
 {
-  title: "hellow worldsss",
+  title: "Hello World!",
   post: {
-    value: "<p>asdfasdf</p> "
+    value: "<p>This is a post body.</p> "
   },
   image: "http://d7.local/sites/default/files/field/image/whoa.jpg",
   number: "2",
