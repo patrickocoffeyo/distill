@@ -119,7 +119,7 @@ class Distill {
       $this->processableFieldTypes[$type] = method_exists($this->processor, $function_base_name . 'Type');
 
       // Check to see if processor has a function to process this field.
-      $function_name = 'process' . $this->machineNameToFunctionName($field_name) . 'Field';
+      $function_base_name = 'process' . $this->machineNameToFunctionName($field_name) . 'Field';
       $this->processableFields[$field_name] = method_exists($this->processor, $function_base_name . 'Field');
     }
   }
