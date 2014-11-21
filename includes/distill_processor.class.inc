@@ -10,7 +10,7 @@
  * by type and by field. Other processing classes can be defined by
  * extending this class and overriding methods.
  */
-class EntityDistillProcessor {
+class DistillProcessor {
 
   /**
    * @property array systemFieldTypes
@@ -22,7 +22,7 @@ class EntityDistillProcessor {
 
 
   /**
-   * Construct a new EntityDistillProcessor object.
+   * Construct a new DistillProcessor object.
    */
   public function __construct() {
     // Fetch system field types.
@@ -290,11 +290,11 @@ class EntityDistillProcessor {
 
     // If a processor class isn't passed in, use default.
     if (!isset($settings['processor'])) {
-      $settings['processor'] = new DistillTestEntityProcessor();
+      $settings['processor'] = new DistillProcessor();
     }
 
     // Create an entity distiller.
-    $distiller = new EntityDistill($entity_info['type'], $entity, $settings['processor']);
+    $distiller = new Distill($entity_info['type'], $entity, $settings['processor']);
 
     if (isset($settings['include_fields']) && !empty($settings['include_fields'])) {
       foreach ($settings['include_fields'] as $field_name => $field_settings) {

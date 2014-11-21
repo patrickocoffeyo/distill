@@ -4,8 +4,8 @@ Distill is a Drupal module that enables other modules to extract and format data
 ##How does Distill Work?
 Distill contains 2 classes; a processor class that contains sensible defaults for extracting field values by field type, and field name, and a distillation class that takes an entity, and a list of fields that should be returns, executes the processor formatter methods, and returns an array of data.
 
-###EntityDistill
-`EntityDistill` is a class that takes an entity type, entity, processor, and language. When asked, it will go through the fields, process them with the methods as defined in the passed-in processor, and add them to an array of field values. It contains a few methods that allow you to ask for fields, and grab field values.
+###Distill class
+`Distill` is a class that takes an entity type, entity, processor, and language. When asked, it will go through the fields, process them with the methods as defined in the passed-in processor, and add them to an array of field values. It contains a few methods that allow you to ask for fields, and grab field values.
 
 - `setField('field_name', 'property_name', array('settings'))`: Asks the distiller to process a given field, and add it to the array of processed fields with the key as specified in the `property_name` parameter. This function also takes a settings array, which gets passed into the processor class and allows one to pass context that affects how the field value should be processed.
 - `setAllFields()`: Tells the distiller that all fields should be formatted and returned using the sensible defaults. 
@@ -19,10 +19,10 @@ function distill_test_page() {
   $entity = node_load(39);
 
   // Create instance of processor.
-  $processor = new EntityDistillProcessor();
+  $processor = new DistillProcessor();
 
-  // Create instance of EntityDistill.
-  $distiller = new EntityDistill('node', $entity, $processor);
+  // Create instance ofDistill.
+  $distiller = new Distill('node', $entity, $processor);
 
   // Specify which fields should be returned.
   $distiller->setField('title');
@@ -95,10 +95,10 @@ And here's an example of an entity that's been processed and formatted as JSON:
 
 
 
-###EntityDistillProcessor
-`EntityDistillProcessor` is a class containing methods that provide a sensible default for extracting data from fields. The methods are named according to a specific pattern based on the field type or field name. Fields with types corresponding to a specific method will be passed into that method for processing. If a method with a name corresponding with a field name is provided, that method will be used instead of the processor method for the field type.
+###DistillProcessor class
+The `DistillProcessor` class contains methods that provide a sensible default for extracting data from fields. The methods are named according to a specific pattern based on the field type or field name. Fields with types corresponding to a specific method will be passed into that method for processing. If a method with a name corresponding with a field name is provided, that method will be used instead of the processor method for the field type.
 
-You can create your own processor class that extends `EntityDistillProcessor`, and easily override processor methods by simply creating methods in the following pattern:
+You can create your own processor class that extends `DistillProcessor`, and easily override processor methods by simply creating methods in the following pattern:
 
 ####Field Type Processor Methods
 Field type processor methods are called based on the **type** of field that's currently being processed. The pattern for creating these method names is `process*Typename*Type()`, where `*Typename*` is equal to the type of field this method should process (such as `Text` or `Entityreference`).

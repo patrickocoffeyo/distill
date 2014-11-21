@@ -9,7 +9,7 @@
  * A class that uses the EntityMetadataWrapper
  * to extract values from an entity object.
  */
-class EntityDistill {
+class Distill {
 
   /**
    * @property EntityMetatdataWrapper $entityWrapper
@@ -19,9 +19,9 @@ class EntityDistill {
   public $entityWrapper;
 
   /**
-   * @property EntityDistillProcessor $processor
-   *   EntityDistillProcessor object that is used to process field data.
-   *   Defaults to new instance of EntityDistillProcessor.
+   * @property DistillProcessor $processor
+   *   DistillProcessor object that is used to process field data.
+   *   Defaults to new instance of DistillProcessor.
    */
   public $processor;
 
@@ -56,14 +56,14 @@ class EntityDistill {
   public $processableFields = array();
 
   /**
-   * Construct a new EntityDistill object.
+   * Construct a new Distill object.
    *
    * @param string $entity_type
    *   Type of entity that a wrapper is being loaded for.
    * @param stdClass|EntityDrupalWrapper $entity
    *   Entity that a wrapper is being loaded for, or an entity wrapper.
-   * @param EntityDistillProcessor $processor
-   *   EntityDistillProcessor object that is used to process field data.
+   * @param DistillProcessor $processor
+   *   DistillProcessor object that is used to process field data.
    * @param string $language
    *   Language code of language that should be used when
    *   extracting field data. Defaults to LANGUAGE_NONE.
@@ -77,12 +77,12 @@ class EntityDistill {
       $this->entityWrapper = entity_metadata_wrapper($entity_type, $entity);
     }
 
-    // Load EntityDistillProcessor.
-    if ($processor && get_parent_class($processor) == 'EntityDistillProcessor') {
+    // Load DistillProcessor.
+    if ($processor && get_parent_class($processor) == 'DistillProcessor') {
       $this->processor = $processor;
     }
     else {
-      $this->processor = new EntityDistillProcessor();
+      $this->processor = new DistillProcessor();
     }
 
     // Define which fields and field types can/cannot be processed.
