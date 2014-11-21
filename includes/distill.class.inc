@@ -11,48 +11,11 @@
  */
 class Distill {
 
-  /**
-   * @property EntityMetatdataWrapper $entityWrapper
-   *   Entity metadata wrapper of the entity from which
-   *   values will be extracted.
-   */
   public $entityWrapper;
-
-  /**
-   * @property DistillProcessor $processor
-   *   DistillProcessor object that is used to process field data.
-   *   Defaults to new instance of DistillProcessor.
-   */
   public $processor;
-
-  /**
-   * @property string $language
-   *   Language code of language that should be used when
-   *   extracting field data. Defaults to LANGUAGE_NONE.
-   */
   public $language = LANGUAGE_NONE;
-
-  /**
-   * @property array $values
-   *   Array of values extracted from entity, keyed by
-   *   property name.
-   */
   public $values = array();
-
-  /**
-   * @property array $processableFieldTypes
-   *   Array of field types found on this class's entity,
-   *   and a boolean indicating whether or not the type is
-   *   processable by this class.
-   */
   public $processableFieldTypes = array();
-
-  /**
-   * @property array $processableFields
-   *   Array of fields names found on this class's entity,
-   *   and a boolean indicating whether or not the type is
-   *   processable by this class.
-   */
   public $processableFields = array();
 
   /**

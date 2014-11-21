@@ -1,25 +1,15 @@
 <?php
 /**
  * @file
- * Provides a class that defines how field values
- * should be extracted, by type and by field.
+ * Contains a class defining extraction/formatting methods.
  */
 
 /**
- * Provides a class that defines how field values should be extracted,
- * by type and by field. Other processing classes can be defined by
- * extending this class and overriding methods.
+ * Extendable class defining extraction/formatting methods.
  */
 class DistillProcessor {
 
-  /**
-   * @property array systemFieldTypes
-   *  Field types available on Drupal system.
-   *
-   * @see field_info_field_types()
-   */
   public $systemFieldTypes;
-
 
   /**
    * Construct a new DistillProcessor object.
