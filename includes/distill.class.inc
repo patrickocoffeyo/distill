@@ -157,6 +157,9 @@ class Distill {
     $field_values = array();
 
     // Calls proper field processing function.
+    // CodeSniffer ignored here because it doesn't
+    // understand any sort of lexical scoping.
+    // @codingStandardsIgnoreStart
     $process_field = function($type, $wrapper, $index) use ($settings, $name) {
       if ($this->processableFields[$name]) {
         $function_name = 'process' . $this->machineNameToFunctionName($name) . 'Field';
@@ -182,6 +185,7 @@ class Distill {
     // Add field value to $this->fieldValues array.
     $this->values[$property_name] = $field_values;
   }
+  // @codingStandardsIgnoreEnd
 
   /**
    * Adds all value of all fields on entity to the $this->values array.
