@@ -150,7 +150,7 @@ class Distill {
     // or this type of field, throw an error.
     if ((!isset($this->processableFieldTypes[$type]) || $this->processableFieldTypes[$type] == FALSE) &&
        (!isset($this->processableFields[$name]) || $this->processableFields[$name] == FALSE)) {
-      throw new Exception('EWEntityMetadataWrapperFieldValueExtractor unable to process field "' . $name . '" of type "' . $type . '"');
+         throw new Exception(t('EWEntityMetadataWrapperFieldValueExtractor unable to process field "@name" of type "@type"', array('@name' => $name, '@type' => $type)));
     }
 
     // Start an array of field values.
