@@ -120,7 +120,7 @@ class DistillProcessor {
     if (isset($settings['image_style'])) {
       $url = image_style_url($settings['image_style'], $image['uri']);
     }
-    // If no image stype is specified, return path to full image.
+    // If no image style is specified, return path to full image.
     else {
       $url = file_create_url($image['uri']);
     }
