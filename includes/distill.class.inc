@@ -22,7 +22,7 @@ class Distill {
    * @param string $entity_type
    *   Type of entity that a wrapper is being loaded for.
    * @param object|EntityDrupalWrapper $entity
-   *   Entity that a wrapper is being loaded for, or an entity wrapper.
+   *   Entity or Entity Metadata Wrapper for entity being processed.
    * @param DistillProcessor $processor
    *   DistillProcessor object that is used to process field data.
    * @param string $language
@@ -117,7 +117,7 @@ class Distill {
    * @param string $property_name
    *   Name of property that will hold the field's value.
    * @param string $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
    */
   public function setField($name, $property_name = NULL, $settings = array()) {
     // If field doesn't exist on entityWrapper, don't add it.

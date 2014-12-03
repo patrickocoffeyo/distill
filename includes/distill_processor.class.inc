@@ -23,11 +23,14 @@ class DistillProcessor {
    * Processor for fields of type 'text'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return string
+   *   Value of field.
    */
   public function processTextType($wrapper, $index, array $settings) {
     return $wrapper->value();
@@ -37,11 +40,14 @@ class DistillProcessor {
    * Processor for fields of type 'text_long'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return string
+   *   Value of field.
    */
   public function processTextLongType($wrapper, $index, array $settings) {
     return $wrapper->value();
@@ -51,11 +57,14 @@ class DistillProcessor {
    * Processor for fields of type 'text_formatted'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return array
+   *   Value and summary of field.
    */
   public function processTextWithSummaryType($wrapper, $index, array $settings) {
     $field_data = $wrapper->value();
@@ -75,11 +84,14 @@ class DistillProcessor {
    * Processor for fields of type 'file'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return array
+   *   Value of field.
    */
   public function processFileType($wrapper, $index, array $settings) {
     return $wrapper->value();
@@ -89,11 +101,16 @@ class DistillProcessor {
    * Processor for fields of type 'image'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *   Allowed Values:
+   *     - image_style: string name of image style that should be returned.
+   *
+   * @return string
+   *   Url to image file.
    */
   public function processImageType($wrapper, $index, array $settings) {
     $image = $wrapper->value();
@@ -115,11 +132,14 @@ class DistillProcessor {
    * Processor for fields of type 'list_integer'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return array
+   *   Array of field values.
    */
   public function processListintegerType($wrapper, $index, array $settings) {
     return $this->processNumberintegerType($wrapper, $index, $settings);
@@ -129,11 +149,14 @@ class DistillProcessor {
    * Processor for fields of type 'list_float'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return array
+   *   Array of field values.
    */
   public function processListFloatType($wrapper, $index, array $settings) {
     return $this->processNumberFloatType($wrapper, $index, $settings);
@@ -143,11 +166,14 @@ class DistillProcessor {
    * Processor for fields of type 'list_text'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return array
+   *   Array of field values.
    */
   public function processListTextType($wrapper, $index, array $settings) {
     return $this->processTextType($wrapper, $index, $settings);
@@ -157,11 +183,14 @@ class DistillProcessor {
    * Processor for fields of type 'list_boolean'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return array
+   *   Array of field values.
    */
   public function processListBooleanType($wrapper, $index, array $settings) {
     return $this->processBooleanType($wrapper, $index, $settings);
@@ -171,11 +200,14 @@ class DistillProcessor {
    * Processor for fields of type 'number_int'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return string
+   *   Value of field.
    */
   public function processNumberintegerType($wrapper, $index, array $settings) {
     return $wrapper->value();
@@ -187,11 +219,14 @@ class DistillProcessor {
    * Reference to $this->processNumberintegerType()
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return string
+   *   Value of field.
    */
   public function processIntegerType($wrapper, $index, array $settings) {
     return $this->processNumberintegerType($wrapper, $index, $settings);
@@ -201,11 +236,14 @@ class DistillProcessor {
    * Processor for fields of type 'number_float'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return string
+   *   Value of field.
    */
   public function processNumberFloatType($wrapper, $index, array $settings) {
     return $wrapper->value();
@@ -215,11 +253,14 @@ class DistillProcessor {
    * Processor for fields of type 'number_decimal'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return string
+   *   Value of field.
    */
   public function processNumberDecimalType($wrapper, $index, array $settings) {
     return $wrapper->value();
@@ -229,11 +270,14 @@ class DistillProcessor {
    * Processor for properties of type 'boolean'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return string
+   *   Value of field.
    */
   public function processBooleanType($wrapper, $index, array $settings) {
     return $wrapper->value();
@@ -243,11 +287,14 @@ class DistillProcessor {
    * Processor for properties of type 'token'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return string
+   *   Value of field.
    */
   public function processTokenType($wrapper, $index, array $settings) {
     return $wrapper->value();
@@ -257,11 +304,11 @@ class DistillProcessor {
    * Processor for fields of type 'entityreference'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
    *   Allowed Values:
    *     - processor: Instance of processor class that should be
    *       used to process the referenced entity.
@@ -307,11 +354,14 @@ class DistillProcessor {
    * Processor for fields of type 'taxonomy_term_reference'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return string
+   *   Term ID of referenced taxonomy term.
    */
   public function processTaxonomyTermReferenceType($wrapper, $index, array $settings) {
     $term = $wrapper->value();
@@ -319,14 +369,21 @@ class DistillProcessor {
   }
 
   /**
-   * Processor for properties of type 'user'.
-   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *   Allowed Values:
+   *     - processor: Instance of processor class that should be
+   *       used to process the referenced entity.
+   *     - include_fields: Array of fields => settings that should
+   *       be extracted and returned fron referenced entity.
+   *
+   * @return StdClass|array
+   *   Field values as specified by include_fields and as extracted
+   *   by specified processor class.
    */
   public function processUserType($wrapper, $index, array $settings) {
     return $this->processEntityReferenceType($wrapper, $index, $settings);
@@ -336,11 +393,14 @@ class DistillProcessor {
    * Processor for properties of type 'date'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return string
+   *   Value of field.
    */
   public function processDateType($wrapper, $index, array $settings) {
     return $wrapper->value();
@@ -350,11 +410,14 @@ class DistillProcessor {
    * Processor for properties of type 'uri'.
    *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
-   *   Wrapper of field from which values are being extracted.
+   *   Wrapper of field that is being processed.
    * @param int $index
-   *   Integer representing the delta of the field being processed.
+   *   Delta of field being processed.
    * @param array $settings
-   *   Variable for passing settings and context into processors.
+   *   Processor configuration and context.
+   *
+   * @return string
+   *   Value of field.
    */
   public function processUriType($wrapper, $index, array $settings) {
     return $wrapper->value();
