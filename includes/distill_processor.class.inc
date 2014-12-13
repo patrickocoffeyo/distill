@@ -369,6 +369,8 @@ class DistillProcessor {
   }
 
   /**
+   * Processor for fields of type 'user'.
+   *
    * @param EntityStructureWrapper|EntityValueWrapper $wrapper
    *   Wrapper of field that is being processed.
    * @param int $index
