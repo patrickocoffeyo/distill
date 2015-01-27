@@ -4,16 +4,18 @@ data from Drupal entities. It provides a simple class structure for defining
 formatting schemas.
 
 ##How does Distill Work?
-Distill contains 2 classes. 1) A processor class that contains sensible
-defaults for extracting field values by field type/name, and 2) a distillation
-class that takes an entity, a processor class, and a list of fields that
-should be returned, executes the processor’s formatter methods, and returns an
-array of data.
+Distill contains 2 classes. 1) A class that defines the structure of a
+processor and 2) a distillation class that takes an entity, a processor class,
+and a list of fields that should be returned, executes the processor’s
+formatter methods, and returns an array of data. If the processor passed into
+the distillation class doesn't have a processor for a specific field type,
+then it will default to invoking the hook defined for that field type.
 
 ###Distill class
 `Distill` is a class that takes an entity type, entity, processor, and
-language. When asked, it will go through the fields, process them with the
-methods as defined in the passed-in processor, and add them to an array of
+language. When asked, it will go through fields, process them with the
+methods as defined in the passed-in processor (defaulting to the field type
+hooks if no processor function is available), and add them to an array of
 field values. It contains a few methods that allow you to ask for fields, and
 grab field values.
 
@@ -21,9 +23,9 @@ grab field values.
 distiller to process a given field, and add it to the array of processed fields
 with the key as specified in the `property_name` parameter. This function also
 takes a settings array, which gets passed into the processor class and allows
-one to pass context that affects how the field value should be processed.
+one to pass context to the processor function.
 - `setAllFields()`: Tells the distiller that all fields should be formatted
-and returned using the sensible defaults. 
+and returned.
 - `getFieldValues()`: Returns the array of field data that has been extracted
 from the given entity and processed by the distiller.
 
@@ -37,10 +39,15 @@ easily override processor methods by simply creating methods in the following
 pattern:
 
 ####Field Type Processor Methods
-Field type processor methods are called based on the **type** of field that's
+Field type processor methods are called based on the **type** of field that is
 currently being processed. The pattern for creating these method names is
 `process*Typename*Type()`, where `*Typename*` is equal to the type of field
-this method should process (such as `Text` or `Entityreference`).
+this method should process (such as `Text` or `Entityreference`). If your
+processor class does not have a method for processing a particular type of
+field, then it will invoke `hook_distill_process_*field_type*()`. These
+hooks should be implemented by the module defining the field type, or within
+the `distill.module` file.
+
 
 ####Field Name Processor Methods
 Field name processor methods are called based on the **name** of the field

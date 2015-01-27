@@ -76,11 +76,11 @@ class Distill {
       }
 
       // Check to see if processor can process field of this type.
-      $function_base_name = 'process' . $this->machineNameToFunctionName($type);
+      $function_base_name = 'process' . $this->machineNameToCamelCase($type);
       $this->processableFieldTypes[$type] = method_exists($this->processor, $function_base_name . 'Type');
 
       // Check to see if processor has a function to process this field.
-      $function_base_name = 'process' . $this->machineNameToFunctionName($field_name) . 'Field';
+      $function_base_name = 'process' . $this->machineNameToCamelCase($field_name) . 'Field';
       $this->processableFields[$field_name] = method_exists($this->processor, $function_base_name . 'Field');
     }
   }
@@ -92,19 +92,35 @@ class Distill {
    *   Underscore-separated machine name of a field or field type.
    *
    * @return string
-   *   Name of function corresponding with the passed in machine name.
+   *   Camel Case version of the passed in machine name.
    */
-  protected function machineNameToFunctionName($machine_name) {
-    // Remove >.
-    $function_name = str_replace('>', '', $machine_name);
-    // Replace < with _
-    $function_name = str_replace('<', '', $function_name);
+  protected function machineNameToCamelCase($machine_name) {
+    // Turn into an underscored function.
+    $function_name = $this->machineNameToUnderscore($machine_name);
     // Replace _ with  ' ' so that words can be capitalized.
     $function_name = str_replace('_', ' ', $function_name);
     // Capitalize words.
     $function_name = ucwords($function_name);
     // Remove spaces.
     $function_name = str_replace(' ', '', $function_name);
+
+    return $function_name;
+  }
+
+  /**
+   * Builds a string that corresponds with the name of an extraction hook.
+   *
+   * @param string $machine_name
+   *   Underscore-separated machine name of a field or field type.
+   *
+   * @return string
+   *   Underscore version of the passed in machine name.
+   */
+  protected function machineNameToUnderscore($machine_name) {
+    // Remove >.
+    $function_name = str_replace('>', '', $machine_name);
+    // Replace < with _
+    $function_name = str_replace('<', '', $function_name);
 
     return $function_name;
   }
@@ -146,13 +162,6 @@ class Distill {
     // Get the field type.
     $type = $field_info['type'];
 
-    // If there is no function delegated to process this field
-    // or this type of field, throw an error.
-    if ((!isset($this->processableFieldTypes[$type]) || $this->processableFieldTypes[$type] == FALSE) &&
-       (!isset($this->processableFields[$name]) || $this->processableFields[$name] == FALSE)) {
-      throw new Exception(t('EWEntityMetadataWrapperFieldValueExtractor unable to process field "@name" of type "@type"', array('@name' => $name, '@type' => $type)));
-    }
-
     // Start an array of field values.
     $field_values = array();
 
@@ -161,11 +170,29 @@ class Distill {
     // understand any sort of lexical scoping.
     // @codingStandardsIgnoreStart
     $process_field = function($type, $wrapper, $index) use ($settings, $name) {
+      // If there's a field name function, use it.
       if ($this->processableFields[$name]) {
-        $function_name = 'process' . $this->machineNameToFunctionName($name) . 'Field';
+        $function_name = 'process' . $this->machineNameToCamelCase($name) . 'Field';
       }
+      // If there's no field name function, but a type name function, use it.
+      elseif ($this->processableFieldTypes[$type]) {
+        $function_name = 'process' . $this->machineNameToCamelCase($type) . 'Type';
+      }
+      // If no field type or name function, implement processor hook function.
       else {
-        $function_name = 'process' . $this->machineNameToFunctionName($type) . 'Type';
+        $function_name = 'distill_process_' . $this->machineNameToUnderscore($type);
+        $values = module_invoke_all($function_name, $wrapper, $index, $settings);
+        if (empty($values)) {
+          return NULL;
+        }
+        else {
+          // If $values[0] is empty, but still has value, just return.
+          if (!isset($values[0])) {
+            return $values;
+          }
+
+          return $values[0];
+        }
       }
 
       return $this->processor->{$function_name}($wrapper, $index, $settings);
