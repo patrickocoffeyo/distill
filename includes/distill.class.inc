@@ -76,12 +76,12 @@ class Distill {
       }
 
       // Check to see if processor can process field of this type.
-      $function_base_name = 'process' . $this->machineNameToCamelCase($type);
-      $this->processableFieldTypes[$type] = method_exists($this->processor, $function_base_name . 'Type');
+      $function_base_name = 'process' . $this->machineNameToCamelCase($type) . 'Type';
+      $this->processableFieldTypes[$type] = method_exists($this->processor, $function_base_name);
 
       // Check to see if processor has a function to process this field.
       $function_base_name = 'process' . $this->machineNameToCamelCase($field_name) . 'Field';
-      $this->processableFields[$field_name] = method_exists($this->processor, $function_base_name . 'Field');
+      $this->processableFields[$field_name] = method_exists($this->processor, $function_base_name);
     }
   }
 
