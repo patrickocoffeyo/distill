@@ -147,8 +147,8 @@ And here's an example of an entity that's been processed and formatted as JSON:
 ## What's Next?
 Distill is still under development. Here are some things that are likely to surface soon:
 
-# distill_extra module that contains lots of field-type default formatters.
-# Drupal 8 version of Distill.
-# RestFull/Distill implementation.
-# Better documentation.
-# Panels pane that allows developers to easily create and theme panes of content.
+* distill_extra module that contains lots of field-type default formatters.
+* Drupal 8 version of Distill.
+* RestFull/Distill implementation.
+* Better documentation.
+* Panels pane that allows developers to easily create and theme panes of content.
