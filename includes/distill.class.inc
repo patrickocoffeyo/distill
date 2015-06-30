@@ -120,7 +120,7 @@ class Distill {
     // Remove >.
     $function_name = str_replace('>', '', $machine_name);
     // Replace < with _
-    $function_name = str_replace('<', '', $function_name);
+    $function_name = str_replace('<', '_', $function_name);
 
     return $function_name;
   }
