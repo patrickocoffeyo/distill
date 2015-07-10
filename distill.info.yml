@@ -1,0 +1,8 @@
+name: Distill
+description: 'Provides an API that allows modules to easily extract and format data from Entity objects.'
+package: Entity
+core: 8.x
+php: '5.3'
+dependencies:
+  - entity
+type: module

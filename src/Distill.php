@@ -1,8 +1,5 @@
 <?php
-/**
- * @file
- * Contains Distill class.
- */
+namespace Drupal\distill;
 
 /**
  * Class that uses EntityMetadataWrapper to extract values from an entity.
@@ -11,7 +8,7 @@ class Distill {
 
   public $entityWrapper;
   public $processor;
-  public $language = LANGUAGE_NONE;
+  public $language = \Drupal\Core\Language\Language::LANGCODE_NOT_SPECIFIED;
   public $values = array();
   public $processableFieldTypes = array();
   public $processableFields = array();
@@ -27,7 +24,7 @@ class Distill {
    *   DistillProcessor object that is used to process field data.
    * @param string $language
    *   Language code of language that should be used when
-   *   extracting field data. Defaults to LANGUAGE_NONE.
+   *   extracting field data. Defaults to \Drupal\Core\Language\Language::LANGCODE_NOT_SPECIFIED.
    */
   public function __construct($entity_type, $entity, DistillProcessor $processor = NULL, $language = NULL) {
     // Load entity metadata wrapper.
@@ -181,7 +178,7 @@ class Distill {
       // If no field type or name function, implement processor hook function.
       else {
         $function_name = 'distill_process_' . $this->machineNameToUnderscore($type);
-        $values = module_invoke_all($function_name, $wrapper, $index, $settings);
+        $values = \Drupal::moduleHandler()->invokeAll($function_name, [$wrapper, $index, $settings]);
         if (empty($values)) {
           return NULL;
         }

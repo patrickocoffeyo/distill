@@ -1,8 +1,0 @@
-name = Distill
-description = Provides an API that allows modules to easily extract and format data from Entity objects.
-package = Entity
-core = 7.x
-php = 5.3
-files[] = includes/distill.class.inc
-files[] = includes/distill_processor.class.inc
-dependencies[] = entity
