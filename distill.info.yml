@@ -4,5 +4,4 @@ package: Entity
 core: 8.x
 php: '5.3'
 dependencies:
-  - entity
 type: module
