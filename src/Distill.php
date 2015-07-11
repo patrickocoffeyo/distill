@@ -1,13 +1,20 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\distill\Distill.
+ */
+
 namespace Drupal\distill;
 
 /**
- * Class that uses EntityMetadataWrapper to extract values from an entity.
+ * Definition of \Drupal\distill\Distill.
  */
 class Distill {
 
-  public $entityWrapper;
-  public $processor;
+  public $entity;
+  public $type;
+  public $id;
+  public $bundle;
   public $language = \Drupal\Core\Language\Language::LANGCODE_NOT_SPECIFIED;
   public $values = array();
   public $processableFieldTypes = array();
@@ -16,27 +23,23 @@ class Distill {
   /**
    * Construct a new Distill object.
    *
-   * @param string $entity_type
-   *   Type of entity that a wrapper is being loaded for.
-   * @param object|EntityDrupalWrapper $entity
-   *   Entity or Entity Metadata Wrapper for entity being processed.
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   Entity interface that will be processed.
    * @param DistillProcessor $processor
    *   DistillProcessor object that is used to process field data.
    * @param string $language
    *   Language code of language that should be used when
    *   extracting field data. Defaults to \Drupal\Core\Language\Language::LANGCODE_NOT_SPECIFIED.
    */
-  public function __construct($entity_type, $entity, DistillProcessor $processor = NULL, $language = NULL) {
-    // Load entity metadata wrapper.
-    if (is_a($entity, 'EntityDrupalWrapper')) {
-      $this->entityWrapper = $entity;
-    }
-    else {
-      $this->entityWrapper = entity_metadata_wrapper($entity_type, $entity);
-    }
+  public function __construct(\Drupal\Core\Entity\EntityInterface $entity, $processor = NULL, $language = NULL) {
+    // Set properties.
+    $this->entity = $entity;
+    $this->type = $entity->getEntityTypeId();
+    $this->bundle = $entity->bundle();
+    $this->id = $entity->id();
 
     // Load DistillProcessor.
-    if ($processor && get_parent_class($processor) == 'DistillProcessor') {
+    if ($processor && get_parent_class($processor) === 'DistillProcessor') {
       $this->processor = $processor;
     }
     else {
@@ -57,20 +60,9 @@ class Distill {
    */
   protected function setProcessableFieldsAndTypes() {
     // Loop through fields and check for processability.
-    foreach ($this->entityWrapper->getPropertyInfo() as $field_name => $field) {
-      // Load field type.
-      $field_info = field_info_field($field_name);
-      if (!$field_info) {
-        $field_info = $field;
-      }
-      // Get the field type.
-      // If the type doesn't exist, default to 'text'.
-      if (isset($field_info['type'])) {
-        $type = $field_info['type'];
-      }
-      else {
-        $type = 'text';
-      }
+    foreach ($this->entity->getFieldDefinitions() as $field_name => $field) {
+      $info = $field->getFieldStorageDefinition();
+      $type = $info->getType();
 
       // Check to see if processor can process field of this type.
       $function_base_name = 'process' . $this->machineNameToCamelCase($type) . 'Type';
@@ -133,31 +125,22 @@ class Distill {
    *   Processor configuration and context.
    */
   public function setField($name, $property_name = NULL, $settings = array()) {
-    // If field doesn't exist on entityWrapper, don't add it.
-    if (!$this->entityWrapper->__isset($name)) {
+    // If field doesn't exist on entity, don't add it.
+    if (!$this->entity->hasField($name) || $this->entity->{$name}->isEmpty()) {
       return NULL;
     }
 
-    // If the field is empty, don't add it.
-    $field_wrappers = $this->entityWrapper->{$name};
-    $field_wrappers_value = $field_wrappers->value();
-    if (empty($field_wrappers_value)) {
-      return NULL;
-    }
+    // Create a reference to the field.
+    $field = $this->entity->{$name};
+    $info = $field->getFieldDefinition();
 
     // Default $property_name to $name.
     if (!$property_name) {
       $property_name = $name;
     }
 
-    // Load field type.
-    $field_info = field_info_field($name);
-    if (!$field_info) {
-      $field_info = $field_wrappers->info();
-    }
-
     // Get the field type.
-    $type = $field_info['type'];
+    $type = $info->getType();
 
     // Start an array of field values.
     $field_values = array();
@@ -166,7 +149,7 @@ class Distill {
     // CodeSniffer ignored here because it doesn't
     // understand any sort of lexical scoping.
     // @codingStandardsIgnoreStart
-    $process_field = function($type, $wrapper, $index) use ($settings, $name) {
+    $process_field = function($type, $field, $index) use ($settings, $name) {
       // If there's a field name function, use it.
       if ($this->processableFields[$name]) {
         $function_name = 'process' . $this->machineNameToCamelCase($name) . 'Field';
@@ -178,7 +161,7 @@ class Distill {
       // If no field type or name function, implement processor hook function.
       else {
         $function_name = 'distill_process_' . $this->machineNameToUnderscore($type);
-        $values = \Drupal::moduleHandler()->invokeAll($function_name, [$wrapper, $index, $settings]);
+        $values = \Drupal::moduleHandler()->invokeAll($function_name, [$field, $index, $settings]);
         if (empty($values)) {
           return NULL;
         }
@@ -196,14 +179,14 @@ class Distill {
     };
 
     // If multivalue field, loop through and extract values.
-    if (method_exists($field_wrappers, 'count') && $field_wrappers->count() > 0) {
-      foreach ($field_wrappers->getIterator() as $index => $wrapper) {
+    if ($info->isMultiple()) {
+      foreach ($field->getIterator() as $index => $wrapper) {
         $field_values[] = $process_field($type, $wrapper, $index);
       }
     }
     // If single value field, extract single value.
     else {
-      $field_values = $process_field($type, $field_wrappers, 0);
+      $field_values = $process_field($type, $field, 0);
     }
 
     // Add field value to $this->fieldValues array.

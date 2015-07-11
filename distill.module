@@ -211,8 +211,8 @@ function distill_distill_process_number_integer($wrapper, $index, array $setting
  * @return string
  *   Value of field.
  */
-function distill_distill_process_integer($wrapper, $index, array $settings) {
-  return $wrapper->value();
+function distill_distill_process_integer($field, $index, array $settings) {
+  return $field->getValue();
 }
 
 /**
