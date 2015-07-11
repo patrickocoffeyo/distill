@@ -51,18 +51,8 @@ function distill_distill_process_text_long($wrapper, $index, array $settings) {
  * @return array
  *   Value and summary of field.
  */
-function distill_distill_process_text_with_summary($wrapper, $index, array $settings) {
-  $field_data = $wrapper->value();
-
-  $field_values = array(
-    'value' => check_markup($field_data['value'], $field_data['format']),
-  );
-
-  if (isset($field_data['summary']) && !empty($field_data['summary'])) {
-    $field_values['summary'] = check_markup($field_data['summary'] . $field_data['format']);
-  }
-
-  return $field_values;
+function distill_distill_process_text_with_summary($field, $index, array $settings) {
+  return $field->getValue();
 }
 
 /**
@@ -97,20 +87,8 @@ function distill_distill_process_file($wrapper, $index, array $settings) {
  * @return string
  *   Url to image file.
  */
-function distill_distill_process_image($wrapper, $index, array $settings) {
-  $image = $wrapper->value();
-  $url = NULL;
-
-  // If an image style is specified, get path for style.
-  if (isset($settings['image_style'])) {
-    $url = image_style_url($settings['image_style'], $image['uri']);
-  }
-  // If no image style is specified, return path to full image.
-  else {
-    $url = file_create_url($image['uri']);
-  }
-
-  return $url;
+function distill_distill_process_image($field, $index, array $settings) {
+  return $field->getValue();
 }
 
 /**

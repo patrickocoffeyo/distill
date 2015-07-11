@@ -130,17 +130,26 @@ class Distill {
       return NULL;
     }
 
-    // Create a reference to the field.
+    // Get information about this field that is needed to
+    // process it's values later on.
     $field = $this->entity->{$name};
     $info = $field->getFieldDefinition();
+    $type = $info->getType();
+    $isMultiple = FALSE;
+
+    // If this field is a base field or an entity field, these properties
+    // are extracted differently.
+    if (get_class($info) === 'Drupal\Core\Field\BaseFieldDefinition') {
+      $isMultiple = $info->isMultiple();
+    }
+    else {
+      $isMultiple = $field->count() > 1 ? TRUE : FALSE;
+    }
 
     // Default $property_name to $name.
     if (!$property_name) {
       $property_name = $name;
     }
-
-    // Get the field type.
-    $type = $info->getType();
 
     // Start an array of field values.
     $field_values = array();
@@ -175,13 +184,13 @@ class Distill {
         }
       }
 
-      return $this->processor->{$function_name}($wrapper, $index, $settings);
+      return $this->processor->{$function_name}($field, $index, $settings);
     };
 
     // If multivalue field, loop through and extract values.
-    if ($info->isMultiple()) {
-      foreach ($field->getIterator() as $index => $wrapper) {
-        $field_values[] = $process_field($type, $wrapper, $index);
+    if ($isMultiple) {
+      foreach($field->getIterator() as $index => $field_item) {
+        $field_values[] = $process_field($type, $field_item, $index);
       }
     }
     // If single value field, extract single value.
