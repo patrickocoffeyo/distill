@@ -5,383 +5,392 @@
  */
 
 /**
- * Processor for fields of type 'text'.
+ * Processor for fields of type 'integer'.
  *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
  * @param int $index
  *   Delta of field being processed.
  * @param array $settings
  *   Processor configuration and context.
  *
  * @return string
- *   Value of field.
+ *   Processed value of field.
  */
-function distill_distill_process_text($wrapper, $index, array $settings) {
-  return $wrapper->value();
+function distill_distill_process_integer(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
+}
+
+/**
+ * Processor for fields of type 'float'.
+ *
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
+ * @param int $index
+ *   Delta of field being processed.
+ * @param array $settings
+ *   Processor configuration and context.
+ *
+ * @return string
+ *   Processed value of field.
+ */
+function distill_distill_process_float(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
+}
+
+/**
+ * Processor for fields of type 'decimal'.
+ *
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
+ * @param int $index
+ *   Delta of field being processed.
+ * @param array $settings
+ *   Processor configuration and context.
+ *
+ * @return string
+ *   Processed value of field.
+ */
+function distill_distill_process_decimal(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
+}
+
+/**
+ * Processor for fields of type 'list_float'.
+ *
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
+ * @param int $index
+ *   Delta of field being processed.
+ * @param array $settings
+ *   Processor configuration and context.
+ *
+ * @return string
+ *   Processed value of field.
+ */
+function distill_distill_process_list_float(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
+}
+
+/**
+ * Processor for fields of type 'string'.
+ *
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
+ * @param int $index
+ *   Delta of field being processed.
+ * @param array $settings
+ *   Processor configuration and context.
+ *
+ * @return string
+ *   Processed value of field.
+ */
+function distill_distill_process_string(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
+}
+
+/**
+ * Processor for fields of type 'string_long'.
+ *
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
+ * @param int $index
+ *   Delta of field being processed.
+ * @param array $settings
+ *   Processor configuration and context.
+ *
+ * @return string
+ *   Processed value of field.
+ */
+function distill_distill_process_string_long(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
+}
+
+/**
+ * Processor for fields of type 'list_string'.
+ *
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
+ * @param int $index
+ *   Delta of field being processed.
+ * @param array $settings
+ *   Processor configuration and context.
+ *
+ * @return string
+ *   Processed value of field.
+ */
+function distill_distill_process_list_string(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
+}
+
+/**
+ * Processor for fields of type 'text'.
+ *
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
+ * @param int $index
+ *   Delta of field being processed.
+ * @param array $settings
+ *   Processor configuration and context.
+ *
+ * @return string
+ *   Processed value of field.
+ */
+function distill_distill_process_text(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
 }
 
 /**
  * Processor for fields of type 'text_long'.
  *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
  * @param int $index
  *   Delta of field being processed.
  * @param array $settings
  *   Processor configuration and context.
  *
  * @return string
- *   Value of field.
+ *   Processed value of field.
  */
-function distill_distill_process_text_long($wrapper, $index, array $settings) {
-  return $wrapper->value();
+function distill_distill_process_text_long(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
 }
 
 /**
- * Processor for fields of type 'text_formatted'.
+ * Processor for fields of type 'text_with_summary'.
  *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
  * @param int $index
  *   Delta of field being processed.
  * @param array $settings
  *   Processor configuration and context.
  *
- * @return array
- *   Value and summary of field.
+ * @return string
+ *   Processed value of field.
  */
-function distill_distill_process_text_with_summary($field, $index, array $settings) {
+function distill_distill_process_text_with_summary(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
+}
+
+/**
+ * Processor for fields of type 'boolean'.
+ *
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
+ * @param int $index
+ *   Delta of field being processed.
+ * @param array $settings
+ *   Processor configuration and context.
+ *
+ * @return string
+ *   Processed value of field.
+ */
+function distill_distill_process_boolean(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
   return $field->getValue();
 }
 
 /**
  * Processor for fields of type 'file'.
  *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
+ * @param Drupal\file\Plugin\Field\FieldType\FileFieldItemList $field
+ *   Object representing a configurable field on an entity.
  * @param int $index
  *   Delta of field being processed.
  * @param array $settings
  *   Processor configuration and context.
  *
- * @return array
- *   Value of field.
+ * @return string
+ *   Processed value of field.
  */
-function distill_distill_process_file($wrapper, $index, array $settings) {
-  return $wrapper->value();
+function distill_distill_process_file(Drupal\file\Plugin\Field\FieldType\FileFieldItemList $field, $index, array $settings) {
+  return $field->getValue();
 }
 
 /**
  * Processor for fields of type 'image'.
  *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
+ * @param Drupal\image\Plugin\Field\FieldType\ImageItem $field
+ *   Object representing a configurable field on an entity.
  * @param int $index
  *   Delta of field being processed.
  * @param array $settings
  *   Processor configuration and context.
- *   Allowed Values:
- *     - image_style: string name of image style that should be returned.
  *
  * @return string
- *   Url to image file.
+ *   Processed value of field.
  */
-function distill_distill_process_image($field, $index, array $settings) {
+function distill_distill_process_image(Drupal\image\Plugin\Field\FieldType\ImageItem $field, $index, array $settings) {
   return $field->getValue();
 }
 
 /**
- * Processor for fields of type 'list_integer'.
+ * Processor for fields of type 'entity_reference'.
  *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
- * @param int $index
- *   Delta of field being processed.
- * @param array $settings
- *   Processor configuration and context.
- *
- * @return array
- *   Array of field values.
- */
-function distill_distill_process_list_integer($wrapper, $index, array $settings) {
-  return $wrapper->value();
-}
-
-/**
- * Processor for fields of type 'list_float'.
- *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
- * @param int $index
- *   Delta of field being processed.
- * @param array $settings
- *   Processor configuration and context.
- *
- * @return array
- *   Array of field values.
- */
-function distill_distill_process_list_float($wrapper, $index, array $settings) {
-  return $wrapper->value();
-}
-
-/**
- * Processor for fields of type 'list_text'.
- *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
- * @param int $index
- *   Delta of field being processed.
- * @param array $settings
- *   Processor configuration and context.
- *
- * @return array
- *   Array of field values.
- */
-function distill_distill_process_list_text($wrapper, $index, array $settings) {
-  return $wrapper->value();
-}
-
-/**
- * Processor for fields of type 'list_boolean'.
- *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
- * @param int $index
- *   Delta of field being processed.
- * @param array $settings
- *   Processor configuration and context.
- *
- * @return array
- *   Array of field values.
- */
-function distill_distill_process_list_boolean($wrapper, $index, array $settings) {
-  return $wrapper->value();
-}
-
-/**
- * Processor for fields of type 'number_int'.
- *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
+ * @param Drupal\entity_reference\ConfigurableEntityReferenceItem $field
+ *   Object representing a configurable field on an entity.
  * @param int $index
  *   Delta of field being processed.
  * @param array $settings
  *   Processor configuration and context.
  *
  * @return string
- *   Value of field.
+ *   Processed value of field.
  */
-function distill_distill_process_number_integer($wrapper, $index, array $settings) {
-  return $wrapper->value();
-}
-
-/**
- * Processor for properties of type 'int'.
- *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
- * @param int $index
- *   Delta of field being processed.
- * @param array $settings
- *   Processor configuration and context.
- *
- * @return string
- *   Value of field.
- */
-function distill_distill_process_integer($field, $index, array $settings) {
+function distill_distill_process_entity_reference(Drupal\entity_reference\ConfigurableEntityReferenceItem $field, $index, array $settings) {
   return $field->getValue();
 }
 
 /**
- * Processor for fields of type 'number_float'.
+ * Processor for fields of type 'link'.
  *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
  * @param int $index
  *   Delta of field being processed.
  * @param array $settings
  *   Processor configuration and context.
  *
  * @return string
- *   Value of field.
+ *   Processed value of field.
  */
-function distill_distill_process_number_float($wrapper, $index, array $settings) {
-  return $wrapper->value();
+function distill_distill_process_link(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
 }
 
 /**
- * Processor for fields of type 'number_decimal'.
+ * Processor for fields of type 'datetime'.
  *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
  * @param int $index
  *   Delta of field being processed.
  * @param array $settings
  *   Processor configuration and context.
  *
  * @return string
- *   Value of field.
+ *   Processed value of field.
  */
-function distill_distill_process_number_decimal($wrapper, $index, array $settings) {
-  return $wrapper->value();
+function distill_distill_process_datetime(Drupal\datetime\Plugin\Field\FieldType\DateTimeFieldItemList $field, $index, array $settings) {
+  return $field->getValue();
 }
 
 /**
- * Processor for properties of type 'boolean'.
+ * Processor for fields of type 'created'.
  *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
  * @param int $index
  *   Delta of field being processed.
  * @param array $settings
  *   Processor configuration and context.
  *
  * @return string
- *   Value of field.
+ *   Processed value of field.
  */
-function distill_distill_process_boolean($wrapper, $index, array $settings) {
-  return $wrapper->value();
+function distill_distill_process_created(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
 }
 
 /**
- * Processor for properties of type 'token'.
+ * Processor for fields of type 'changed'.
  *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
  * @param int $index
  *   Delta of field being processed.
  * @param array $settings
  *   Processor configuration and context.
  *
  * @return string
- *   Value of field.
+ *   Processed value of field.
  */
-function distill_distill_process_token($wrapper, $index, array $settings) {
-  return $wrapper->value();
+function distill_distill_process_changed(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
 }
 
 /**
- * Processor for fields of type 'entityreference'.
+ * Processor for fields of type 'uuid'.
  *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
- * @param int $index
- *   Delta of field being processed.
- * @param array $settings
- *   Processor configuration and context.
- *   Allowed Values:
- *     - processor: Instance of processor class that should be
- *       used to process the referenced entity.
- *     - include_fields: Array of fields => settings that should
- *       be extracted and returned fron referenced entity.
- *
- * @return StdClass|array
- *   Field values as specified by include_fields and as extracted
- *   by specified processor class.
- */
-function distill_distill_process_entityreference($wrapper, $index, array $settings) {
-  // Get entity info, and entity object from wrapper.
-  $entity_info = $wrapper->info();
-  $entity = $wrapper->value();
-
-  // If a processor class isn't passed in, use default.
-  if (!isset($settings['processor'])) {
-    $settings['processor'] = new DistillProcessor();
-  }
-
-  // Create an entity distiller.
-  $distiller = new Distill($entity_info['type'], $entity, $settings['processor']);
-
-  if (isset($settings['include_fields']) && !empty($settings['include_fields'])) {
-    foreach ($settings['include_fields'] as $field_name => $field_settings) {
-      // If no field settings were specified, use
-      // field value instead of index as name.
-      if (is_int($field_name)) {
-        $field_name = $field_settings;
-        $field_settings = array();
-      }
-      $distiller->setField($field_name, $field_settings);
-    }
-  }
-  else {
-    $distiller->setAllFields();
-  }
-
-  return $distiller->getFieldValues();
-}
-
-/**
- * Processor for fields of type 'taxonomy_term_reference'.
- *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
  * @param int $index
  *   Delta of field being processed.
  * @param array $settings
  *   Processor configuration and context.
  *
  * @return string
- *   Term ID of referenced taxonomy term.
+ *   Processed value of field.
  */
-function distill_distill_process_taxonomy_term_reference($wrapper, $index, array $settings) {
-  $term = $wrapper->value();
-  return $term->tid;
+function distill_distill_process_uuid(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
 }
 
 /**
- * Processor for fields of type 'user'.
+ * Processor for fields of type 'language'.
  *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
- * @param int $index
- *   Delta of field being processed.
- * @param array $settings
- *   Processor configuration and context.
- *   Allowed Values:
- *     - processor: Instance of processor class that should be
- *       used to process the referenced entity.
- *     - include_fields: Array of fields => settings that should
- *       be extracted and returned fron referenced entity.
- *
- * @return StdClass|array
- *   Field values as specified by include_fields and as extracted
- *   by specified processor class.
- */
-function distill_distill_process_user($wrapper, $index, array $settings) {
-  return distill_distill_process_entityreference($wrapper, $index, $settings);
-}
-
-/**
- * Processor for properties of type 'date'.
- *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
  * @param int $index
  *   Delta of field being processed.
  * @param array $settings
  *   Processor configuration and context.
  *
  * @return string
- *   Value of field.
+ *   Processed value of field.
  */
-function distill_distill_process_date($wrapper, $index, array $settings) {
-  return $wrapper->value();
+function distill_distill_process_language(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
 }
 
 /**
- * Processor for properties of type 'uri'.
+ * Processor for fields of type 'path'.
  *
- * @param EntityStructureWrapper|EntityValueWrapper $wrapper
- *   Wrapper of field that is being processed.
+ * @param Drupal\path\Plugin\Field\FieldType\PathFieldItemList $field
+ *   Object representing a configurable field on an entity.
  * @param int $index
  *   Delta of field being processed.
  * @param array $settings
  *   Processor configuration and context.
  *
  * @return string
- *   Value of field.
+ *   Processed value of field.
  */
-function distill_distill_process_uri($wrapper, $index, array $settings) {
-  return $wrapper->value();
+function distill_distill_process_path(Drupal\path\Plugin\Field\FieldType\PathFieldItemList $field, $index, array $settings) {
+  return $field->getValue();
+}
+
+/**
+ * Processor for fields of type 'comment'.
+ *
+ * @param Drupal\path\Plugin\Field\FieldType\PathFieldItemList $field
+ *   Object representing a configurable field on an entity.
+ * @param int $index
+ *   Delta of field being processed.
+ * @param array $settings
+ *   Processor configuration and context.
+ *
+ * @return string
+ *   Processed value of field.
+ */
+function distill_distill_process_comment(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
+}
+
+/**
+ * Processor for fields of type 'email'.
+ *
+ * @param Drupal\path\Plugin\Field\FieldType\PathFieldItemList $field
+ *   Object representing a configurable field on an entity.
+ * @param int $index
+ *   Delta of field being processed.
+ * @param array $settings
+ *   Processor configuration and context.
+ *
+ * @return string
+ *   Processed value of field.
+ */
+function distill_distill_process_email(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  return $field->getValue();
 }
