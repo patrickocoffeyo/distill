@@ -4,6 +4,8 @@
  * Module file for distill.
  */
 
+use Drupal\image\Entity\ImageStyle;
+
 /**
  * Processor for fields of type 'integer'.
  *
@@ -18,7 +20,8 @@
  *   Processed value of field.
  */
 function distill_distill_process_integer(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'];
 }
 
 /**
@@ -35,7 +38,8 @@ function distill_distill_process_integer(Drupal\Core\Field\FieldItemList $field,
  *   Processed value of field.
  */
 function distill_distill_process_float(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'];
 }
 
 /**
@@ -52,7 +56,26 @@ function distill_distill_process_float(Drupal\Core\Field\FieldItemList $field, $
  *   Processed value of field.
  */
 function distill_distill_process_decimal(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'];
+}
+
+/**
+ * Processor for fields of type 'list_integer'.
+ *
+ * @param Drupal\Core\Field\FieldItemList $field
+ *   Object representing a configurable field on an entity.
+ * @param int $index
+ *   Delta of field being processed.
+ * @param array $settings
+ *   Processor configuration and context.
+ *
+ * @return string
+ *   Processed value of field.
+ */
+function distill_distill_process_list_integer(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
+  $value = $field->getValue();
+  return $value[0]['value'];
 }
 
 /**
@@ -69,7 +92,8 @@ function distill_distill_process_decimal(Drupal\Core\Field\FieldItemList $field,
  *   Processed value of field.
  */
 function distill_distill_process_list_float(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'];
 }
 
 /**
@@ -86,7 +110,8 @@ function distill_distill_process_list_float(Drupal\Core\Field\FieldItemList $fie
  *   Processed value of field.
  */
 function distill_distill_process_string(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'];
 }
 
 /**
@@ -103,7 +128,8 @@ function distill_distill_process_string(Drupal\Core\Field\FieldItemList $field, 
  *   Processed value of field.
  */
 function distill_distill_process_string_long(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'];
 }
 
 /**
@@ -120,7 +146,8 @@ function distill_distill_process_string_long(Drupal\Core\Field\FieldItemList $fi
  *   Processed value of field.
  */
 function distill_distill_process_list_string(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'];
 }
 
 /**
@@ -137,7 +164,8 @@ function distill_distill_process_list_string(Drupal\Core\Field\FieldItemList $fi
  *   Processed value of field.
  */
 function distill_distill_process_text(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'];
 }
 
 /**
@@ -154,7 +182,8 @@ function distill_distill_process_text(Drupal\Core\Field\FieldItemList $field, $i
  *   Processed value of field.
  */
 function distill_distill_process_text_long(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'];
 }
 
 /**
@@ -171,7 +200,11 @@ function distill_distill_process_text_long(Drupal\Core\Field\FieldItemList $fiel
  *   Processed value of field.
  */
 function distill_distill_process_text_with_summary(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return array(
+    'text' => $value[0]['value'],
+    'summary' => $value[0]['summary'],
+  );
 }
 
 /**
@@ -188,7 +221,8 @@ function distill_distill_process_text_with_summary(Drupal\Core\Field\FieldItemLi
  *   Processed value of field.
  */
 function distill_distill_process_boolean(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'] == 0 ? FALSE : TRUE;
 }
 
 /**
@@ -205,7 +239,9 @@ function distill_distill_process_boolean(Drupal\Core\Field\FieldItemList $field,
  *   Processed value of field.
  */
 function distill_distill_process_file(Drupal\file\Plugin\Field\FieldType\FileFieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  $file = file_load($value[0]['target_id']);
+  return file_create_url($file->getFileUri());
 }
 
 /**
@@ -222,13 +258,25 @@ function distill_distill_process_file(Drupal\file\Plugin\Field\FieldType\FileFie
  *   Processed value of field.
  */
 function distill_distill_process_image(Drupal\image\Plugin\Field\FieldType\ImageItem $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  $file = file_load($value['target_id']);
+  $uri = $file->getFileUri();
+
+  // If an image style is specified, get path for style.
+  if (isset($settings['image_style'])) {
+    $url = ImageStyle::load($settings['image_style'])->buildUrl($uri);
+  }
+  else {
+   $url = file_create_url($file->getFileUri());
+  }
+
+  return $url ? $url : NULL;
 }
 
 /**
  * Processor for fields of type 'entity_reference'.
  *
- * @param Drupal\entity_reference\ConfigurableEntityReferenceItem $field
+ * @param Drupal\Core\Field\EntityReferenceFieldItemList | Drupal\entity_reference\ConfigurableEntityReferenceItem $field
  *   Object representing a configurable field on an entity.
  * @param int $index
  *   Delta of field being processed.
@@ -238,7 +286,7 @@ function distill_distill_process_image(Drupal\image\Plugin\Field\FieldType\Image
  * @return string
  *   Processed value of field.
  */
-function distill_distill_process_entity_reference(Drupal\entity_reference\ConfigurableEntityReferenceItem $field, $index, array $settings) {
+function distill_distill_process_entity_reference($field, $index, array $settings) {
   return $field->getValue();
 }
 
@@ -256,7 +304,11 @@ function distill_distill_process_entity_reference(Drupal\entity_reference\Config
  *   Processed value of field.
  */
 function distill_distill_process_link(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return array(
+    'path' => $value[0]['uri'],
+    'title' => $value[0]['title'],
+  );
 }
 
 /**
@@ -273,7 +325,8 @@ function distill_distill_process_link(Drupal\Core\Field\FieldItemList $field, $i
  *   Processed value of field.
  */
 function distill_distill_process_datetime(Drupal\datetime\Plugin\Field\FieldType\DateTimeFieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'];
 }
 
 /**
@@ -364,7 +417,7 @@ function distill_distill_process_path(Drupal\path\Plugin\Field\FieldType\PathFie
 /**
  * Processor for fields of type 'comment'.
  *
- * @param Drupal\path\Plugin\Field\FieldType\PathFieldItemList $field
+ * @param Drupal\comment\Plugin\Field\FieldType\CommentItem $field
  *   Object representing a configurable field on an entity.
  * @param int $index
  *   Delta of field being processed.
@@ -381,7 +434,7 @@ function distill_distill_process_comment(Drupal\Core\Field\FieldItemList $field,
 /**
  * Processor for fields of type 'email'.
  *
- * @param Drupal\path\Plugin\Field\FieldType\PathFieldItemList $field
+ * @param Drupal\Core\Field\FieldItemList $field
  *   Object representing a configurable field on an entity.
  * @param int $index
  *   Delta of field being processed.
