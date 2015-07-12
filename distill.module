@@ -5,6 +5,9 @@
  */
 
 use Drupal\image\Entity\ImageStyle;
+use Drupal\Core\Url;
+use Drupal\distill\Distill;
+use Drupal\distill\DistillProcessor;
 
 /**
  * Processor for fields of type 'integer'.
@@ -276,8 +279,8 @@ function distill_distill_process_image(Drupal\image\Plugin\Field\FieldType\Image
 /**
  * Processor for fields of type 'entity_reference'.
  *
- * @param Drupal\Core\Field\EntityReferenceFieldItemList | Drupal\entity_reference\ConfigurableEntityReferenceItem $field
- *   Object representing a configurable field on an entity.
+ * @param $field
+ *   Referenced entity object.
  * @param int $index
  *   Delta of field being processed.
  * @param array $settings
@@ -287,7 +290,40 @@ function distill_distill_process_image(Drupal\image\Plugin\Field\FieldType\Image
  *   Processed value of field.
  */
 function distill_distill_process_entity_reference($field, $index, array $settings) {
-  return $field->getValue();
+  $output = $field->id();
+
+  // If the settings array has specified that it wants fields of the 
+  // referenced entity to be returned.
+  if (isset($settings['include_fields'])) {
+    $processor = isset($settings['processor']) ? $settings['processor'] : new DistillProcessor();
+    $distiller = new Distill($field, $processor);
+
+    // If include_fields is an array, and contains values, set those values.
+    if (is_array($settings['include_fields']) && !empty($settings['include_fields'])) {
+      foreach($settings['include_fields'] as $field_name => $field_settings) {
+        // If no field settings were specified, use
+        // field value instead of index as name.
+        if (is_int($field_name)) {
+          $field_name = $field_settings;
+          $field_settings = array();
+        }
+        $distiller->setField($field_name, $field_settings);
+      }
+    }
+
+    // If include_fields is a boolean and is set to TRUE, include all fields.
+    elseif ($settings['include_fields'] === TRUE) {
+      $distiller->setAllFields();
+    }
+
+    $output = $distiller->getFieldValues();
+  }
+  elseif (isset($settings['path']) && $settings['path'] === TRUE) {
+    $output = $field->url();
+  }
+
+
+  return $output;
 }
 
 /**
@@ -343,7 +379,8 @@ function distill_distill_process_datetime(Drupal\datetime\Plugin\Field\FieldType
  *   Processed value of field.
  */
 function distill_distill_process_created(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'];
 }
 
 /**
@@ -360,7 +397,8 @@ function distill_distill_process_created(Drupal\Core\Field\FieldItemList $field,
  *   Processed value of field.
  */
 function distill_distill_process_changed(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'];
 }
 
 /**
@@ -377,7 +415,8 @@ function distill_distill_process_changed(Drupal\Core\Field\FieldItemList $field,
  *   Processed value of field.
  */
 function distill_distill_process_uuid(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'];
 }
 
 /**
@@ -394,7 +433,8 @@ function distill_distill_process_uuid(Drupal\Core\Field\FieldItemList $field, $i
  *   Processed value of field.
  */
 function distill_distill_process_language(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'];
 }
 
 /**
@@ -411,7 +451,8 @@ function distill_distill_process_language(Drupal\Core\Field\FieldItemList $field
  *   Processed value of field.
  */
 function distill_distill_process_path(Drupal\path\Plugin\Field\FieldType\PathFieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'];
 }
 
 /**
@@ -445,5 +486,6 @@ function distill_distill_process_comment(Drupal\Core\Field\FieldItemList $field,
  *   Processed value of field.
  */
 function distill_distill_process_email(Drupal\Core\Field\FieldItemList $field, $index, array $settings) {
-  return $field->getValue();
+  $value = $field->getValue();
+  return $value[0]['value'];
 }

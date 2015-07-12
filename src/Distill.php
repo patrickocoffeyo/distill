@@ -23,7 +23,7 @@ class Distill {
   /**
    * Construct a new Distill object.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
+   * @param $entity
    *   Entity interface that will be processed.
    * @param DistillProcessor $processor
    *   DistillProcessor object that is used to process field data.
@@ -31,12 +31,20 @@ class Distill {
    *   Language code of language that should be used when
    *   extracting field data. Defaults to \Drupal\Core\Language\Language::LANGCODE_NOT_SPECIFIED.
    */
-  public function __construct(\Drupal\Core\Entity\EntityInterface $entity, $processor = NULL, $language = NULL) {
+  public function __construct($entity, $processor = NULL, $language = NULL) {
     // Set properties.
     $this->entity = $entity;
     $this->type = $entity->getEntityTypeId();
     $this->bundle = $entity->bundle();
     $this->id = $entity->id();
+    $this->fieldable = method_exists($this->entity, 'getFieldDefinitions');
+
+    // If this is not a fieldable entity, there's no need for a processor.
+    // Just set $this->value to the id.
+    if (!$this->fieldable) {
+      $this->values = array('target_id' => $this->id);
+      return;
+    }
 
     // Load DistillProcessor.
     if ($processor && get_parent_class($processor) === 'DistillProcessor') {
@@ -125,6 +133,11 @@ class Distill {
    *   Processor configuration and context.
    */
   public function setField($name, $property_name = NULL, $settings = array()) {
+    // If this entity isn't fieldable, don't add fields.
+    if (!$this->fieldable) {
+      return NULL;
+    }
+
     // If field doesn't exist on entity, don't add it.
     if (!$this->entity->hasField($name) || $this->entity->{$name}->isEmpty()) {
       return NULL;
@@ -189,7 +202,13 @@ class Distill {
 
     // If multivalue field, loop through and extract values.
     if ($isMultiple) {
-      foreach($field->getIterator() as $index => $field_item) {
+      // Decide on iterator function name. This changes based on field type.
+      $iterator_name = 'getIterator';
+      if (get_class($field) === 'Drupal\Core\Field\EntityReferenceFieldItemList') {
+        $iterator_name = 'referencedEntities';
+      }
+      // Loop through and process fields.
+      foreach($field->{$iterator_name}() as $index => $field_item) {
         $field_values[] = $process_field($type, $field_item, $index);
       }
     }
@@ -207,6 +226,11 @@ class Distill {
    * Adds all value of all fields on entity to the $this->values array.
    */
   public function setAllFields() {
+    // If this entity is not fieldable, skip.
+    if (!$this->fieldable) {
+      return;
+    }
+
     foreach ($this->entityWrapper->getPropertyInfo() as $field_name => $field) {
       $this->setField($field_name);
     }
