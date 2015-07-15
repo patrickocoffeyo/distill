@@ -53,7 +53,7 @@ the `distill.module` file.
 Field name processor methods are called based on the **name** of the field
 that's currently being processed. The patter for creating these method names
 is `process*Fieldname*Field()`, where `*Fieldname*` is equal to the name of
-the field this method should procces (such as `Fieldimage` or `Body`).
+the field this method should process (such as `Fieldimage` or `Body`).
 
 All processor methods take 3 parameters:
 
@@ -64,82 +64,68 @@ All processor methods take 3 parameters:
  how the field value should be processed.
 
 ####Example
-Here's a quick example implementation of this module.
+Here's a quick example implementation of this module within a route controller:
 
-```
-function distill_test_page() {
-  $entity = node_load(39);
+```php
+namespace Drupal\my_module\Controller;
+use Drupal\Core\Controller\ControllerBase;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
-  // Create instance of processor.
-  $processor = new DistillProcessor();
+// Load Distill classes.
+use Drupal\distill\Distill;
+use Drupal\distill\DistillProcessor;
 
-  // Create instance ofDistill.
-  $distiller = new Distill('node', $entity, $processor);
+/**
+ * Controller routines for my_module routes.
+ */
+class DistillExampleController extends ControllerBase {
+  /**
+   * Returns a blob of yummy json.
+   */
+  public function exampleDataExtrationEndpoint() {
+    $entity = \Drupal::entityManager()->getStorage('node')->load(1);
 
-  // Specify which fields should be returned.
-  $distiller->setField('title');
-  $distiller->setField('body', 'post');
-  $distiller->setField('field_image', 'image');
-  $distiller->setField('field_integer', 'number');
-  $distiller->setField('field_float', 'float');
-  $distiller->setField('field_decimal', 'decimal');
-  $distiller->setField('field_list_of_floats', 'floats');
-  $distiller->setField('field_list_of_integers', 'integers');
-  $distiller->setField('field_list_of_text', 'texts');
-  $distiller->setField('field_user_reference', 'user', array(
-    'include_fields' => array(
-      'name',
-      'mail'
-    )
-  ));
-  $distiller->setField('field_entity_reference', 'referenced_entity', array(
-    'include_fields' => array(
-      'title',
-      'body'
-    )
-  ));
+    // Create instance of processor.
+    $processor = new DistillProcessor();
 
-  // Output JSON
-  return drupal_json_output($distiller->getFieldValues());
+    // Create instance of Distill.
+    $distiller = new Distill($entity, $processor);
+
+    // Specify which fields should be returned.
+    $distiller->setField('nid', '_id');
+    $distiller->setField('title');
+    $distiller->setField('body', 'post');
+
+    // We pass in an image style.
+    $distiller->setField('field_image', 'image', array('image_style' => 'thumbnail'));
+
+    // This is an entity reference field. We pass a settings array
+    // that has an 'include_fields' key. This key contains an array of fields
+    // from the referenced entity that should be returned.
+    $distiller->setField('field_author', 'user', array(
+      'include_fields' => array(
+        'name',
+        'mail'
+      )
+    ));
+
+    // Output the returned array as JSON.
+    return new JsonResponse($distiller->getFieldValues());
+  }
 }
 
 ```
 
 And here's an example of an entity that's been processed and formatted as JSON:
 
-```
+```javascript
 {
   title: "Hello World!",
-  post: {
-    value: "<p>This is a post body.</p> "
-  },
-  image: "http://d7.local/sites/default/files/field/image/whoa.jpg",
-  number: "2",
-  float: "1",
-  decimal: "0.50",
-  floats: [
-    "4",
-    "5",
-    "6",
-    "9"
-  ],
-  integers: [
-    "2",
-    "5"
-  ],
-  texts: [
-    "Option #2",
-    "Option #3"
-  ],
+  post: "<p>This is a post body.</p> ",
+  image: "http://d7.local/sites/default/files/styles/thumbnail/field/image/whoa.jpg",
   user: {
     name: "admin",
     mail: "patrickcoffey48@gmail.com"
-  },
-  referenced_entity: {
-    title: "EVERYBODY DANCE NOW",
-    body: {
-      value: "<p>dun dun dun</p> "
-    }
   }
 }
 ```
