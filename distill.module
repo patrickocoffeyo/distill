@@ -5,6 +5,23 @@
  */
 
 /**
+ * Processor for fields of type 'string'.
+ *
+ * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+ *   Wrapper of field that is being processed.
+ * @param int $index
+ *   Delta of field being processed.
+ * @param array $settings
+ *   Processor configuration and context.
+ *
+ * @return string
+ *   Value of field.
+ */
+function distill_distill_process_string($wrapper, $index, array $settings) {
+  return $wrapper->value();
+}
+
+/**
  * Processor for fields of type 'text'.
  *
  * @param EntityStructureWrapper|EntityValueWrapper $wrapper
@@ -148,6 +165,40 @@ function distill_distill_process_list_float($wrapper, $index, array $settings) {
 }
 
 /**
+ * Processor for fields of type 'list_decimal'.
+ *
+ * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+ *   Wrapper of field that is being processed.
+ * @param int $index
+ *   Delta of field being processed.
+ * @param array $settings
+ *   Processor configuration and context.
+ *
+ * @return array
+ *   Array of field values.
+ */
+function distill_distill_process_list_decimal($wrapper, $index, array $settings) {
+  return $wrapper->value();
+}
+
+/**
+ * Processor for fields of type 'list_string'.
+ *
+ * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+ *   Wrapper of field that is being processed.
+ * @param int $index
+ *   Delta of field being processed.
+ * @param array $settings
+ *   Processor configuration and context.
+ *
+ * @return array
+ *   Array of field values.
+ */
+function distill_distill_process_list_string($wrapper, $index, array $settings) {
+  return $wrapper->value();
+}
+
+/**
  * Processor for fields of type 'list_text'.
  *
  * @param EntityStructureWrapper|EntityValueWrapper $wrapper
@@ -246,6 +297,23 @@ function distill_distill_process_number_float($wrapper, $index, array $settings)
  *   Value of field.
  */
 function distill_distill_process_number_decimal($wrapper, $index, array $settings) {
+  return $wrapper->value();
+}
+
+/**
+ * Processor for fields of type 'decimal'.
+ *
+ * @param EntityStructureWrapper|EntityValueWrapper $wrapper
+ *   Wrapper of field that is being processed.
+ * @param int $index
+ *   Delta of field being processed.
+ * @param array $settings
+ *   Processor configuration and context.
+ *
+ * @return string
+ *   Value of field.
+ */
+function distill_distill_process_decimal($wrapper, $index, array $settings) {
   return $wrapper->value();
 }
 
