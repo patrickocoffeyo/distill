@@ -1,9 +1,9 @@
-#Distill
+# Distill
 Distill is a Drupal module that enables other modules to extract and format
 data from Drupal entities. It provides a simple class structure for defining
 formatting schemas.
 
-##How does Distill Work?
+## How does Distill Work?
 Distill contains 2 classes. 1) A class that defines the structure of a
 processor and 2) a distillation class that takes an entity, a processor class,
 and a list of fields that should be returned, executes the processor’s
@@ -11,7 +11,7 @@ formatter methods, and returns an array of data. If the processor passed into
 the distillation class doesn't have a processor for a specific field type,
 then it will default to invoking the hook defined for that field type.
 
-###Distill class
+### Distill class
 `Distill` is a class that takes an entity type, entity, processor, and
 language. When asked, it will go through fields, process them with the
 methods as defined in the passed-in processor (defaulting to the field type
@@ -29,7 +29,7 @@ and returned.
 - `getFieldValues()`: Returns the array of field data that has been extracted
 from the given entity and processed by the distiller.
 
-###DistillProcessor class
+### DistillProcessor class
 The `DistillProcessor` class contains methods that provide a sensible default
 for extracting and formatting data from fields. The methods are called based
 on the field type, or name.
@@ -38,7 +38,7 @@ You can create your own processor class that extends `DistillProcessor`, and
 easily override processor methods by simply creating methods in the following
 pattern:
 
-####Field Type Processor Methods
+#### Field Type Processor Methods
 Field type processor methods are called based on the **type** of field that is
 currently being processed. The pattern for creating these method names is
 `process*Typename*Type()`, where `*Typename*` is equal to the type of field
@@ -49,7 +49,7 @@ hooks should be implemented by the module defining the field type, or within
 the `distill.module` file.
 
 
-####Field Name Processor Methods
+#### Field Name Processor Methods
 Field name processor methods are called based on the **name** of the field
 that's currently being processed. The patter for creating these method names
 is `process*Fieldname*Field()`, where `*Fieldname*` is equal to the name of
@@ -63,7 +63,7 @@ All processor methods take 3 parameters:
  - `$settings`: Variable for passing in settings and context that will affect
  how the field value should be processed.
 
-####Example
+#### Example
 Here's a quick example implementation of this module.
 
 ```
